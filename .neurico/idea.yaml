@@ -1,0 +1,26 @@
+idea:
+  title: How much volume is standard knowledge in LLMs?
+  domain: artificial_intelligence
+  hypothesis: 'The amount of LLM parameters dedicated to encoding standard categorical
+    and conditional knowledge (such as "Peanuts are legumes" or "Georgia is both a
+    US state and a country") is a very small component of the total model, but this
+    has not yet been quantitatively estimated.
+
+    '
+  background:
+    description: 'There is uncertainty about the neuronal basis for knowledge representation
+      in LLMs, but it is suspected that a significant portion of model capacity is
+      used for storing complex categorical and conditional information. The idea is
+      to estimate what fraction of LLM parameters are devoted to such standard knowledge,
+      as this has not been systematically measured.
+
+      '
+  metadata:
+    author: Ari Holtzman
+    source: IdeaHub
+    source_url: https://hypogenic.ai/ideahub/idea/zpyheALLqDAI6srwbuaL
+    idea_id: how_much_volume_is_standard_kn_20260427_203116_f29b0347
+    created_at: '2026-04-27T20:31:16.221044'
+    status: submitted
+    github_repo_name: llm-standard-knowledge-c8f8-claude
+    github_repo_url: https://github.com/Hypogenic-AI/llm-standard-knowledge-c8f8-claude
