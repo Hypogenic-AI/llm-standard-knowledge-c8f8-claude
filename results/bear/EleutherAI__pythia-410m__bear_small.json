@@ -1,0 +1,494 @@
+{
+  "model_name": "EleutherAI/pythia-410m",
+  "subset": "small",
+  "n_params": 405334016,
+  "grand_correct": 686,
+  "grand_total": 7731,
+  "grand_accuracy": 0.08873366964170223,
+  "total_acquired_bits": 1543.4773253976227,
+  "param_share_2bpp": 1.9039573098617298e-06,
+  "param_share_3p6bpp": 1.0577540610342942e-06,
+  "per_relation": {
+    "P6": {
+      "n_total": 60,
+      "n_correct": 16,
+      "accuracy": 0.26666666666666666,
+      "answer_space_size": 60,
+      "acquired_bits": 88.60335893412778,
+      "template": "The head of government of [X] is [Y]."
+    },
+    "P19": {
+      "n_total": 150,
+      "n_correct": 15,
+      "accuracy": 0.1,
+      "answer_space_size": 25,
+      "acquired_bits": 41.79470570797252,
+      "template": "[X] was born in [Y]."
+    },
+    "P20": {
+      "n_total": 150,
+      "n_correct": 6,
+      "accuracy": 0.04,
+      "answer_space_size": 25,
+      "acquired_bits": 0.0,
+      "template": "[X] died in [Y]."
+    },
+    "P26": {
+      "n_total": 60,
+      "n_correct": 2,
+      "accuracy": 0.03333333333333333,
+      "answer_space_size": 60,
+      "acquired_bits": 5.906890595608519,
+      "template": "[X] is married to [Y]."
+    },
+    "P27": {
+      "n_total": 150,
+      "n_correct": 20,
+      "accuracy": 0.13333333333333333,
+      "answer_space_size": 25,
+      "acquired_bits": 65.01398665684613,
+      "template": "[X] holds citizenship in [Y]."
+    },
+    "P30": {
+      "n_total": 150,
+      "n_correct": 25,
+      "accuracy": 0.16666666666666666,
+      "answer_space_size": 6,
+      "acquired_bits": 0.0,
+      "template": "[X] is located in [Y]."
+    },
+    "P36": {
+      "n_total": 60,
+      "n_correct": 12,
+      "accuracy": 0.2,
+      "answer_space_size": 60,
+      "acquired_bits": 64.97579655169372,
+      "template": "The capital of [X] is [Y]."
+    },
+    "P37": {
+      "n_total": 60,
+      "n_correct": 2,
+      "accuracy": 0.03333333333333333,
+      "answer_space_size": 60,
+      "acquired_bits": 5.906890595608519,
+      "template": "The official language of [X] is [Y]."
+    },
+    "P50": {
+      "n_total": 150,
+      "n_correct": 15,
+      "accuracy": 0.1,
+      "answer_space_size": 25,
+      "acquired_bits": 41.79470570797252,
+      "template": "[X] was authored by [Y]."
+    },
+    "P53": {
+      "n_total": 150,
+      "n_correct": 27,
+      "accuracy": 0.18,
+      "answer_space_size": 25,
+      "acquired_bits": 97.5209799852692,
+      "template": "[X] is a member of the [Y]."
+    },
+    "P57": {
+      "n_total": 150,
+      "n_correct": 4,
+      "accuracy": 0.02666666666666667,
+      "answer_space_size": 25,
+      "acquired_bits": 0.0,
+      "template": "[X] was directed by [Y]."
+    },
+    "P58": {
+      "n_total": 150,
+      "n_correct": 6,
+      "accuracy": 0.04,
+      "answer_space_size": 25,
+      "acquired_bits": 0.0,
+      "template": "[X] was written by [Y]."
+    },
+    "P69": {
+      "n_total": 150,
+      "n_correct": 15,
+      "accuracy": 0.1,
+      "answer_space_size": 25,
+      "acquired_bits": 41.79470570797252,
+      "template": "[X] was educated at the [Y]."
+    },
+    "P87": {
+      "n_total": 60,
+      "n_correct": 1,
+      "accuracy": 0.016666666666666666,
+      "answer_space_size": 60,
+      "acquired_bits": 0.0,
+      "template": "The librettist for the opera [X] was [Y]."
+    },
+    "P98": {
+      "n_total": 60,
+      "n_correct": 4,
+      "accuracy": 0.06666666666666667,
+      "answer_space_size": 60,
+      "acquired_bits": 17.72067178682556,
+      "template": "[X] was checked and corrected by [Y]."
+    },
+    "P103": {
+      "n_total": 150,
+      "n_correct": 12,
+      "accuracy": 0.08,
+      "answer_space_size": 25,
+      "acquired_bits": 27.863137138648344,
+      "template": "The native language of [X] is [Y]."
+    },
+    "P105": {
+      "n_total": 150,
+      "n_correct": 43,
+      "accuracy": 0.2866666666666667,
+      "answer_space_size": 5,
+      "acquired_bits": 30.185065233535706,
+      "template": "[X] is classified at the [Y] level."
+    },
+    "P108": {
+      "n_total": 150,
+      "n_correct": 15,
+      "accuracy": 0.1,
+      "answer_space_size": 25,
+      "acquired_bits": 41.79470570797252,
+      "template": "[X] works for [Y]."
+    },
+    "P115": {
+      "n_total": 60,
+      "n_correct": 4,
+      "accuracy": 0.06666666666666667,
+      "answer_space_size": 60,
+      "acquired_bits": 17.72067178682556,
+      "template": "[X]'s home venue is the [Y]."
+    },
+    "P127": {
+      "n_total": 150,
+      "n_correct": 39,
+      "accuracy": 0.26,
+      "answer_space_size": 25,
+      "acquired_bits": 153.2472542625659,
+      "template": "[X] is owned by [Y]."
+    },
+    "P131": {
+      "n_total": 150,
+      "n_correct": 6,
+      "accuracy": 0.04,
+      "answer_space_size": 25,
+      "acquired_bits": 0.0,
+      "template": "[X] is located in [Y]."
+    },
+    "P137": {
+      "n_total": 150,
+      "n_correct": 29,
+      "accuracy": 0.19333333333333333,
+      "answer_space_size": 25,
+      "acquired_bits": 106.80869236481864,
+      "template": "[X] is operated by [Y]."
+    },
+    "P162": {
+      "n_total": 150,
+      "n_correct": 8,
+      "accuracy": 0.05333333333333334,
+      "answer_space_size": 25,
+      "acquired_bits": 9.28771237954945,
+      "template": "[X] was produced by [Y]."
+    },
+    "P170": {
+      "n_total": 150,
+      "n_correct": 13,
+      "accuracy": 0.08666666666666667,
+      "answer_space_size": 25,
+      "acquired_bits": 32.50699332842307,
+      "template": "[X] was created by [Y]."
+    },
+    "P171": {
+      "n_total": 150,
+      "n_correct": 7,
+      "accuracy": 0.04666666666666667,
+      "answer_space_size": 25,
+      "acquired_bits": 4.643856189774725,
+      "template": "The parent taxon of [X] is [Y]."
+    },
+    "P175": {
+      "n_total": 150,
+      "n_correct": 10,
+      "accuracy": 0.06666666666666667,
+      "answer_space_size": 25,
+      "acquired_bits": 18.575424759098894,
+      "template": "[X] was performed by [Y]."
+    },
+    "P176": {
+      "n_total": 150,
+      "n_correct": 14,
+      "accuracy": 0.09333333333333334,
+      "answer_space_size": 25,
+      "acquired_bits": 37.150849518197795,
+      "template": "[X] is produced by [Y]."
+    },
+    "P177": {
+      "n_total": 153,
+      "n_correct": 28,
+      "accuracy": 0.1830065359477124,
+      "answer_space_size": 17,
+      "acquired_bits": 77.66179398375644,
+      "template": "The [X] crosses the [Y]."
+    },
+    "P178": {
+      "n_total": 150,
+      "n_correct": 15,
+      "accuracy": 0.1,
+      "answer_space_size": 25,
+      "acquired_bits": 41.79470570797252,
+      "template": "[X] is developed by [Y]."
+    },
+    "P179": {
+      "n_total": 150,
+      "n_correct": 9,
+      "accuracy": 0.06,
+      "answer_space_size": 25,
+      "acquired_bits": 13.93156856932417,
+      "template": "[X] is a part of the [Y] series."
+    },
+    "P185": {
+      "n_total": 60,
+      "n_correct": 2,
+      "accuracy": 0.03333333333333333,
+      "answer_space_size": 60,
+      "acquired_bits": 5.906890595608519,
+      "template": "[X] was a doctoral student of [Y]."
+    },
+    "P190": {
+      "n_total": 60,
+      "n_correct": 3,
+      "accuracy": 0.05,
+      "answer_space_size": 60,
+      "acquired_bits": 11.81378119121704,
+      "template": "[X] and [Y] are twin cities."
+    },
+    "P206": {
+      "n_total": 150,
+      "n_correct": 11,
+      "accuracy": 0.07333333333333333,
+      "answer_space_size": 25,
+      "acquired_bits": 23.21928094887362,
+      "template": "[X] is next to the [Y]."
+    },
+    "P272": {
+      "n_total": 150,
+      "n_correct": 6,
+      "accuracy": 0.04,
+      "answer_space_size": 25,
+      "acquired_bits": 0.0,
+      "template": "[Y] produced [X]."
+    },
+    "P291": {
+      "n_total": 153,
+      "n_correct": 9,
+      "accuracy": 0.058823529411764705,
+      "answer_space_size": 17,
+      "acquired_bits": 0.0,
+      "template": "The place of publication for [X] was [Y]."
+    },
+    "P344": {
+      "n_total": 150,
+      "n_correct": 6,
+      "accuracy": 0.04,
+      "answer_space_size": 25,
+      "acquired_bits": 0.0,
+      "template": "[X] had [Y] as its director of photography."
+    },
+    "P364": {
+      "n_total": 150,
+      "n_correct": 8,
+      "accuracy": 0.05333333333333334,
+      "answer_space_size": 25,
+      "acquired_bits": 9.28771237954945,
+      "template": "The original language of [X] is [Y]."
+    },
+    "P403": {
+      "n_total": 144,
+      "n_correct": 14,
+      "accuracy": 0.09722222222222222,
+      "answer_space_size": 16,
+      "acquired_bits": 20.0,
+      "template": "The [X] flows into the [Y]."
+    },
+    "P412": {
+      "n_total": 150,
+      "n_correct": 25,
+      "accuracy": 0.16666666666666666,
+      "answer_space_size": 6,
+      "acquired_bits": 0.0,
+      "template": "[X]'s voice type is [Y]."
+    },
+    "P413": {
+      "n_total": 150,
+      "n_correct": 6,
+      "accuracy": 0.04,
+      "answer_space_size": 25,
+      "acquired_bits": 0.0,
+      "template": "[X] plays in [Y] position."
+    },
+    "P427": {
+      "n_total": 60,
+      "n_correct": 6,
+      "accuracy": 0.1,
+      "answer_space_size": 60,
+      "acquired_bits": 29.534452978042598,
+      "template": "[X] is a taxonomic type of [Y]."
+    },
+    "P449": {
+      "n_total": 150,
+      "n_correct": 6,
+      "accuracy": 0.04,
+      "answer_space_size": 25,
+      "acquired_bits": 0.0,
+      "template": "[X] was originally aired on [Y]."
+    },
+    "P463": {
+      "n_total": 150,
+      "n_correct": 15,
+      "accuracy": 0.1,
+      "answer_space_size": 25,
+      "acquired_bits": 41.79470570797252,
+      "template": "[X] is member of the [Y]."
+    },
+    "P466": {
+      "n_total": 60,
+      "n_correct": 1,
+      "accuracy": 0.016666666666666666,
+      "answer_space_size": 60,
+      "acquired_bits": 0.0,
+      "template": "[X] is occupied by [Y]."
+    },
+    "P509": {
+      "n_total": 150,
+      "n_correct": 10,
+      "accuracy": 0.06666666666666667,
+      "answer_space_size": 25,
+      "acquired_bits": 18.575424759098894,
+      "template": "[X] died from [Y]."
+    },
+    "P610": {
+      "n_total": 60,
+      "n_correct": 2,
+      "accuracy": 0.03333333333333333,
+      "answer_space_size": 60,
+      "acquired_bits": 5.906890595608519,
+      "template": "The highest point in [X] is [Y]."
+    },
+    "P611": {
+      "n_total": 150,
+      "n_correct": 13,
+      "accuracy": 0.08666666666666667,
+      "answer_space_size": 25,
+      "acquired_bits": 32.50699332842307,
+      "template": "[X] is a member of the [Y]."
+    },
+    "P641": {
+      "n_total": 150,
+      "n_correct": 11,
+      "accuracy": 0.07333333333333333,
+      "answer_space_size": 25,
+      "acquired_bits": 23.21928094887362,
+      "template": "[X] is associated with [Y]."
+    },
+    "P676": {
+      "n_total": 150,
+      "n_correct": 3,
+      "accuracy": 0.02,
+      "answer_space_size": 25,
+      "acquired_bits": 0.0,
+      "template": "The lyrics of [X] were written by [Y]."
+    },
+    "P1303": {
+      "n_total": 150,
+      "n_correct": 6,
+      "accuracy": 0.04,
+      "answer_space_size": 25,
+      "acquired_bits": 0.0,
+      "template": "[X] plays [Y]."
+    },
+    "P1376": {
+      "n_total": 60,
+      "n_correct": 6,
+      "accuracy": 0.1,
+      "answer_space_size": 60,
+      "acquired_bits": 29.534452978042598,
+      "template": "[X] is the capital of [Y]."
+    },
+    "P1412": {
+      "n_total": 150,
+      "n_correct": 13,
+      "accuracy": 0.08666666666666667,
+      "answer_space_size": 25,
+      "acquired_bits": 32.50699332842307,
+      "template": "[X] used to communicate in [Y]."
+    },
+    "P1441": {
+      "n_total": 150,
+      "n_correct": 9,
+      "accuracy": 0.06,
+      "answer_space_size": 25,
+      "acquired_bits": 13.93156856932417,
+      "template": "[X] appears in [Y]."
+    },
+    "P1532": {
+      "n_total": 150,
+      "n_correct": 15,
+      "accuracy": 0.1,
+      "answer_space_size": 25,
+      "acquired_bits": 41.79470570797252,
+      "template": "[X] represents [Y]."
+    },
+    "P2632": {
+      "n_total": 147,
+      "n_correct": 7,
+      "accuracy": 0.047619047619047616,
+      "answer_space_size": 21,
+      "acquired_bits": 0.0,
+      "template": "[X] was detained at [Y]."
+    },
+    "P3373": {
+      "n_total": 60,
+      "n_correct": 1,
+      "accuracy": 0.016666666666666666,
+      "answer_space_size": 60,
+      "acquired_bits": 0.0,
+      "template": "[X] and [Y] are siblings."
+    },
+    "P4552": {
+      "n_total": 144,
+      "n_correct": 23,
+      "accuracy": 0.1597222222222222,
+      "answer_space_size": 24,
+      "acquired_bits": 77.94436251225964,
+      "template": "[X] is part of the [Y]."
+    },
+    "P6886": {
+      "n_total": 150,
+      "n_correct": 10,
+      "accuracy": 0.06666666666666667,
+      "answer_space_size": 25,
+      "acquired_bits": 18.575424759098894,
+      "template": "[X]'s works were primarily written in [Y]."
+    },
+    "P7937": {
+      "n_total": 150,
+      "n_correct": 7,
+      "accuracy": 0.04666666666666667,
+      "answer_space_size": 25,
+      "acquired_bits": 4.643856189774725,
+      "template": "[X] is a form of [Y]."
+    },
+    "P7959": {
+      "n_total": 150,
+      "n_correct": 10,
+      "accuracy": 0.06666666666666667,
+      "answer_space_size": 25,
+      "acquired_bits": 18.575424759098894,
+      "template": "[X] is located in the historic county of [Y]."
+    }
+  },
+  "elapsed_seconds": 329.9680016040802
+}

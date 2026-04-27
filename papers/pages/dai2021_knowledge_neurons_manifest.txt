@@ -1,0 +1,8 @@
+PDF: papers/dai2021_knowledge_neurons.pdf
+Total pages: 10
+Pages per chunk: 4
+
+Chunks:
+  dai2021_knowledge_neurons_chunk_001.pdf: pages 1-4
+  dai2021_knowledge_neurons_chunk_002.pdf: pages 5-8
+  dai2021_knowledge_neurons_chunk_003.pdf: pages 9-10

@@ -1,0 +1,12 @@
+PDF: papers/meng2022_locating_editing_rome.pdf
+Total pages: 35
+Pages per chunk: 5
+
+Chunks:
+  meng2022_locating_editing_rome_chunk_001.pdf: pages 1-5
+  meng2022_locating_editing_rome_chunk_002.pdf: pages 6-10
+  meng2022_locating_editing_rome_chunk_003.pdf: pages 11-15
+  meng2022_locating_editing_rome_chunk_004.pdf: pages 16-20
+  meng2022_locating_editing_rome_chunk_005.pdf: pages 21-25
+  meng2022_locating_editing_rome_chunk_006.pdf: pages 26-30
+  meng2022_locating_editing_rome_chunk_007.pdf: pages 31-35

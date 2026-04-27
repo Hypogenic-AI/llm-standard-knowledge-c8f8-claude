@@ -1,0 +1,1043 @@
+You are an academic paper writer. Generate a complete NEURIPS style paper
+based on the experiment results provided.
+
+════════════════════════════════════════════════════════════════════════════════
+                         IMPORTANT: BEFORE YOU START
+════════════════════════════════════════════════════════════════════════════════
+
+Before writing any content, you MUST complete these steps:
+
+1. READ THE SKILL: Review the paper-writer skill at .claude/skills/paper-writer/SKILL.md
+2. READ THE STYLE GUIDE: Study templates/paper_writing/lab_style_guide.md carefully
+3. REVIEW EXAMPLES: Browse paper_examples/ for formatting and language patterns:
+   - Look at sections/1.introduction.tex for language style
+   - Look at tables/*.tex for table formatting
+   - Look at commands/*.tex for macro usage
+4. VERIFY COMMAND TEMPLATES: Command templates (math.tex, general.tex, macros.tex) are pre-copied to paper_draft/commands/
+
+CRITICAL: Reference example papers for FORMATTING and LANGUAGE STYLE only.
+Do NOT copy content, phrasing, or narrative structure from the example papers.
+The examples are in a different research domain - focus only on presentation style.
+
+════════════════════════════════════════════════════════════════════════════════
+                            EXPERIMENT REPORT
+════════════════════════════════════════════════════════════════════════════════
+
+# How much volume is *standard knowledge* in LLMs?
+
+A quantitative estimate, across the Pythia model family, of the fraction of
+LLM parameters dedicated to encoding standard categorical and conditional
+knowledge (&#34;Peanuts are legumes&#34;, &#34;Georgia is a US state and a country&#34;).
+
+---
+
+## 1. Executive Summary
+
+**Research question.** What fraction of an LLM&#39;s parameters is devoted to
+encoding standard categorical and conditional knowledge? How does this
+fraction scale with model size?
+
+**Headline finding.** Across Pythia-{160M, 410M, 1B, 2.8B} the *standard
+categorical-and-relational* knowledge probed by BEAR + TAXI consumes
+**0.00006%–0.00022%** of the model&#39;s bit budget at the Allen-Zhu 2 bpp
+ceiling — i.e. roughly **1 part in 1 million of stored capacity**. The
+fraction *decreases monotonically with parameter count* from Pythia-410M
+onward (slope ≈ −0.00015 percentage-points per log10-decade,
+p = 0.05 in linear fit; bootstrap 95% CIs at 1B and 2.8B disjoint from
+the CIs at 160M/410M).
+
+**Practical implication.** Even a fairly aggressive enumeration of &#34;common&#34;
+knowledge — 7,731 BEAR relational facts plus 1,435 TAXI categorical-and-
+property queries (≈ 10⁴ atomic facts spanning 60 Wikidata relations + 6
+TAXI domains) — accounts for under **0.001%** of the LLM&#39;s stored bits.
+The vast majority of an LLM&#39;s parameter capacity is spent on something
+*other* than standard categorical/conditional facts: long-tail entities,
+linguistic competence, reasoning circuitry, and induction patterns.
+This validates the qualitative framing of the original hypothesis with a
+concrete, replicable number.
+
+---
+
+## 2. Research Question &amp; Motivation
+
+The neural representation of factual knowledge in LLMs has been studied from
+three angles: capacity scaling laws (Allen-Zhu &amp; Li 2024 — 2 bits/param;
+Morris et al. 2025 — 3.6 bits/param raw), mechanistic localisation
+(Geva 2020, Dai 2021 — knowledge neurons; Meng 2022 — ROME), and probing
+benchmarks (Petroni 2019 — LAMA; Wiland 2024 — BEAR; Powell 2024 — TAXI).
+Yet **no prior work directly quantifies the parameter-share consumed by
+the specific subset of *standard categorical and conditional* knowledge** —
+the kind of &#34;everybody knows this&#34; facts a competent reader can rattle off
+about peanuts, Georgia, or symphony orchestras.
+
+We close that gap by combining a probe-based bit-budget estimate with
+Allen-Zhu&#39;s 2 bpp capacity ceiling, reporting the fraction across four
+Pythia model scales. This is the missing measurement that converts existing
+benchmark accuracy numbers into an interpretable &#34;what *fraction* of the
+model is *that*?&#34;.
+
+---
+
+## 3. Methodology
+
+### 3.1 Approach
+
+We do **probe-based accounting** (no model surgery). For each model M and
+each (subject, relation, gold answer) tuple, we compute the length-
+normalised log-likelihood of every candidate completion under M&#39;s relation
+template and take argmax. Per-relation accuracy is converted to *acquired
+bits* by subtracting a uniform-random baseline:
+
+&gt; **bits_r = N_r · log₂(|A_r|) · max(0, accuracy_r − 1/|A_r|)**
+
+We sum across relations / properties to get a model-level total, then divide
+by the model&#39;s bit budget at Allen-Zhu&#39;s 2 bpp ceiling. Reported figures use
+2 bpp as the primary denominator and Morris&#39;s 3.6 bpp as a secondary,
+more-conservative one.
+
+### 3.2 Models
+
+| Model | Parameters | d_model | n_layers | Source |
+|---|---|---|---|---|
+| Pythia-160M | 162,322,944 | 768 | 12 | EleutherAI/pythia-160m |
+| Pythia-410M | 405,334,016 | 1,024 | 24 | EleutherAI/pythia-410m |
+| Pythia-1B   | 1,011,781,632 | 2,048 | 16 | EleutherAI/pythia-1b |
+| Pythia-2.8B | 2,775,208,960 | 2,560 | 32 | EleutherAI/pythia-2.8b |
+
+All loaded in fp16 on a single NVIDIA RTX A6000 (49 GB) with random seed 42,
+batch size 24 for log-likelihood scoring, length-normalised LL, no
+quantisation. Probing time: 60–765 s for BEAR-small, 18–42 s for TAXI per
+model.
+
+### 3.3 Datasets / Benchmarks
+
+- **BEAR-small** (Wiland et al. 2024): 7,731 (subject, relation, answer)
+  triples across 60 Wikidata relations. Average answer-set size 31.7 (range
+  5–60). Standard *relational* knowledge (&#34;the head of government of X is
+  Y&#34;, &#34;the capital of X is Y&#34;).
+- **TAXI baseline-evaluation** (Powell et al. 2024): 1,435 categorical
+  queries across 6 superordinate categories (animal, plant, vehicle,
+  instrument, food, drink) and 53 properties. Standard *categorical*
+  knowledge (&#34;a Siamese is a kind of cat&#34;, &#34;a Labrador has 4 legs&#34;).
+
+### 3.4 Metrics
+
+- **Accuracy** per relation / property (probe correctness).
+- **Acquired bits** (above-uniform-baseline information stored, defined above).
+- **Parameter share** = acquired_bits / (bpp · |params|) for bpp ∈ {2.0, 3.6}.
+- **Bootstrap 95% CI** on combined parameter share (400 resamples; per-fact
+  unit; uses each relation&#39;s actual answer-set size).
+- **Cross-checks**: log-log scaling regression (slope of bits vs. params);
+  per-fact-footprint estimates from Knowledge-Neurons (8·d_model per fact)
+  and ROME (d_model + d_inter per fact).
+
+### 3.5 Reproducibility
+
+- Random seeds set in `src/probe_utils.py:set_seed(42)` (Python, NumPy, torch).
+- Exact prompts derived from BEAR&#39;s `metadata_relations.json` first
+  template (e.g. `&#34;The head of government of [X] is [Y].&#34;` → score
+  `&#34;The head of government of &lt;subject&gt; is &#34;` + each candidate label).
+- Code: `src/probe_bear.py`, `src/probe_taxi.py`, `src/run_one.py`,
+  `src/analyze.py`, `src/breakdown.py`. Outputs: `results/bear/`,
+  `results/taxi/`, `figures/`. Reproduce via:
+  ```bash
+  source .venv/bin/activate
+  python src/run_one.py --model EleutherAI/pythia-410m
+  python src/analyze.py
+  python src/breakdown.py
+  ```
+
+---
+
+## 4. Results
+
+### 4.1 Headline scaling table
+
+| Model | Params | BEAR acc | TAXI acc | BEAR bits | TAXI bits | Combined bits | Share @ 2 bpp | Share @ 3.6 bpp |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|
+| Pythia-160M | 162M | 6.14% | 23.48% | 606.3 | 119.7 | 726 | **0.000224%** | 0.000124% |
+| Pythia-410M | 405M | 8.87% | 28.08% | 1543.5 | 218.5 | 1762 | **0.000217%** | 0.000121% |
+| Pythia-1B   | 1.01B | 9.70% | 27.60% | 1865.1 | 220.2 | 2085 | **0.000103%** | 0.000057% |
+| Pythia-2.8B | 2.78B | 13.05% | 30.24% | 3104.0 | 257.5 | 3361 | **0.000061%** | 0.000034% |
+
+Source: `results/summary_table.csv`. Bootstrap 95% CIs (400 resamples,
+`results/bootstrap_share.json`):
+- Pythia-160M: 0.000168% (95% CI 0.000109–0.000223)
+- Pythia-410M: 0.000197% (95% CI 0.000171–0.000222)
+- Pythia-1B:   0.000095% (95% CI 0.000083–0.000106)
+- Pythia-2.8B: 0.000059% (95% CI 0.000053–0.000064)
+
+The bootstrap CIs at 1B and 2.8B are **disjoint from those at 160M and
+410M**, confirming the parameter-share decrease is not a sampling artefact.
+(Bootstrap below the analytic point estimate because the analytical formula
+adds the per-relation random-baseline subtraction inside the sum, while the
+bootstrap re-aggregates per-fact contributions.)
+
+### 4.2 Scaling regression (log-log)
+
+| Quantity | Slope (log10 / log10) | R² | p |
+|---|---:|---:|---:|
+| BEAR bits acquired vs. params | **0.54** | 0.92 | 0.039 |
+| TAXI bits acquired vs. params | 0.24 | 0.76 | 0.13 |
+| Combined bits vs. params | **0.50** | 0.92 | 0.042 |
+| Share (linear) vs. log10 params | −0.00015 pp/decade | 0.90 | 0.050 |
+
+Source: `results/scaling_regression.json`. Both BEAR and combined slopes are
+significantly less than 1 — adding a parameter buys only **0.5 fractional
+bits of standard knowledge**, far less than the 1 bit available at the 2 bpp
+ceiling. This is the mechanism by which the parameter share *shrinks* with
+scale: standard-knowledge bits grow sub-linearly while capacity grows
+linearly.
+
+### 4.3 Visualisations
+
+- `figures/scaling_bits.png` — log-log plot of acquired bits vs. parameter
+  count, with the 2 bpp and 3.6 bpp capacity ceilings drawn as dotted lines.
+  The probed-knowledge curve sits **5–6 orders of magnitude below** the
+  ceiling.
+- `figures/scaling_share.png` — parameter-share (% of bit budget) vs.
+  parameter count. Combined share stays near 2×10⁻⁴% at small scales and
+  halves between 410M and 2.8B.
+- `figures/bear_vs_taxi_bits.png` — bar chart comparing relational (BEAR)
+  vs. categorical (TAXI) bits: BEAR dominates the bit count purely because
+  it has 5× more facts; TAXI achieves higher per-fact accuracy.
+- `figures/per_category.png` — per-superordinate-category breakdown of TAXI
+  accuracy and acquired bits across models. Categorical knowledge of
+  *animals* and *foods* is best-encoded across all model scales.
+
+### 4.4 Per-relation breakdown (Pythia-410M, top 5)
+
+| Relation | Template | Answer set | Acc | Acquired bits |
+|---|---|---:|---:|---:|
+| P105 | &#34;[X] is classified at the [Y] level.&#34; | 5 | 28.7% | 30.2 |
+| P6   | &#34;The head of government of [X] is [Y].&#34; | 60 | 26.7% | 88.6 |
+| P127 | &#34;[X] is owned by [Y].&#34; | 25 | 26.0% | 153.2 |
+| P36  | &#34;The capital of [X] is [Y].&#34; | 60 | 20.0% | 65.0 |
+| P137 | &#34;[X] is operated by [Y].&#34; | 25 | 19.3% | 106.8 |
+
+Source: `results/bear_per_relation.csv`. The relations the model knows best
+are exactly the *standard, high-frequency* ones — taxonomic levels, heads of
+government, capitals, ownership — consistent with the hypothesis that this
+benchmark is dominated by &#34;everyone knows&#34; facts.
+
+### 4.5 Per-fact-footprint cross-check (Knowledge-Neurons / ROME)
+
+If we naively allocate per-fact parameters using Dai et al. 2021&#39;s &#34;≈4 FFN
+intermediate dims per fact, each contributing ~2·d_model parameters&#34; rule,
+the implied parameter share for the *known* facts is:
+
+| Model | Known facts | KN params/fact | KN share | ROME share |
+|---|---:|---:|---:|---:|
+| Pythia-160M | 812 | 6,144 | 3.07% | 1.92% |
+| Pythia-410M | 1,088 | 8,192 | 2.20% | 1.37% |
+| Pythia-1B   | 1,145 | 16,384 | 1.85% | 1.16% |
+| Pythia-2.8B | 1,443 | 20,480 | 1.06% | 0.67% |
+
+Source: `results/per_fact_footprint.json`. These are **upper bounds** that
+assume exclusive parameter ownership per fact (no sharing) — known to be
+wildly conservative because real FFN value vectors fire for many concepts
+(He / Hong et al. 2025). The bit-budget estimate (≈ 10⁻⁴ %) is roughly
+**4 orders of magnitude tighter** than this naive footprint estimate, which
+is why we treat the bit-budget figure as the headline result.
+
+### 4.6 Comparison to literature anchors
+
+- Allen-Zhu &amp; Li (2024) measure **2 bpp** as the universal capacity ceiling
+  on synthetic biographies: 2.78B params × 2 bpp = 5.56 × 10⁹ bits.
+- Morris et al. (2025) measure **3.6 bpp** for raw memorisation: 9.99 × 10⁹
+  bits at 2.8B.
+- Our acquired-bit figures (3.4 × 10³ at 2.8B) are 1.6 × 10⁶× smaller than
+  Allen-Zhu&#39;s *capacity* — i.e. standard categorical/relational knowledge
+  occupies less than one millionth of the model&#39;s information storage.
+
+---
+
+## 5. Analysis &amp; Discussion
+
+### 5.1 Interpretation in light of the hypothesis
+
+**H1 (volume hypothesis): supported.** Standard knowledge consumes well
+under 1% of the bit budget — by 4–5 orders of magnitude. The hypothesis
+that &#34;standard knowledge is a very small component&#34; is quantitatively
+confirmed: we measure ~10⁻⁴ % at small scales and ~6×10⁻⁵ % at 2.8B. Even
+extrapolating to a benchmark-of-benchmarks 100× larger than BEAR + TAXI
+combined would still leave the figure under 0.01%.
+
+**H2 (scaling hypothesis): supported with caveat.** The fraction
+*decreases* with model size: 410M → 1B halves it, 1B → 2.8B halves it
+again. Bootstrap CIs are disjoint, so the trend is statistically reliable
+despite only 4 model points. The caveat is that the slope is gentle in
+absolute terms (−0.00015 pp/decade); the dilution effect is real but
+modest.
+
+**H3 (typology hypothesis): supported on accuracy, mixed on bits.** TAXI
+categorical accuracy (23–30%) consistently exceeds BEAR relational
+accuracy (6–13%) — the model &#34;knows&#34; categories better than entity-
+specific relations. However, TAXI contributes far fewer aggregate bits
+because it has 5× fewer queries and smaller answer sets. The per-fact
+density numbers (TAXI ≈ 0.15 bits/fact vs. BEAR ≈ 0.40 bits/fact)
+work out *opposite* to the prediction — relational facts carry more bits
+per query because the answer space is larger, even though the model
+knows fewer of them. The hypothesis as stated needs refining: categorical
+knowledge is better-known but lower-bit; relational knowledge is harder
+but higher-bit.
+
+### 5.2 Why such a small fraction?
+
+Several mechanisms compress the apparent footprint:
+
+1. **Compositional storage.** &#34;Peanut → legume&#34; generalises to dozens of
+   inherited properties (has-shell, contains-protein, …) without spending
+   per-property bits. The *bit-complexity* of the categorical edge is much
+   smaller than the bit-complexity of enumerating the entailments. This is
+   exactly the structure TAXI tests, and it shows up as low-bit / high-acc.
+2. **Parameter sharing across facts.** Geva 2021 / He 2025 establish that
+   a single FFN value vector activates for many concepts; the per-fact
+   &#34;footprint&#34; computed naively (KN bound 1–3%) is an upper bound by
+   orders of magnitude.
+3. **Junk-data dilution.** Allen-Zhu shows 1:7 useful:junk ratios cause
+   20× capacity loss. Pythia is trained on the Pile, which is dense in
+   non-knowledge content (code, comments, dialogue). Most parameters serve
+   linguistic competence, reasoning circuits, and long-tail entity
+   memorisation — not standard knowledge.
+
+### 5.3 What dominates the rest of the bit budget?
+
+The 2 bpp · 2.78B = 5.56 × 10⁹ bits at Pythia-2.8B is overwhelmingly *not*
+spent on standard categorical/conditional knowledge. Plausible occupants
+(unmeasured here, but suggested by literature):
+- **Tail-of-distribution facts** about uncommon entities (people, places,
+  events) that BEAR + TAXI exclude by construction. Mallen et al. 2023
+  show long-tail facts have very different accessibility profiles.
+- **Linguistic competence and stylistic memorisation** — a 2.8B Pythia
+  on the Pile reproduces enormous amounts of code, technical text,
+  forum dialogue.
+- **Implicit reasoning circuits** (induction heads, copying mechanisms,
+  arithmetic primitives).
+- **Raw memorised passages** — Morris&#39;s 3.6 bpp is achieved on uniform-
+  random strings, suggesting a substantial fraction of capacity is
+  raw memorisation rather than abstracted knowledge.
+
+### 5.4 Surprises
+
+- **TAXI accuracy plateaus at 1B.** Pythia-410M and Pythia-1B have nearly
+  identical TAXI accuracy (28.1% vs. 27.6%). 2.8B improves to 30.2% but
+  far less than the 4× parameter increase would suggest. Categorical
+  knowledge appears to saturate at modest model sizes — consistent with
+  Hong / He 2025&#39;s finding that specialisation rises (fewer parameters
+  encode more concepts) in larger models.
+- **BEAR accuracy keeps growing.** 6.1% → 8.9% → 9.7% → 13.0% across the
+  4 sizes — relational knowledge (which is more entity-specific) benefits
+  more from scale than categorical knowledge.
+- **Best-known relations are the most &#34;standard.&#34;** P105 (taxonomic level),
+  P6 (head of government), P36 (capital), P127 (ownership) are exactly
+  the textbook examples — confirming the dataset&#39;s overlap with the
+  hypothesis&#39;s &#34;standard knowledge&#34; target.
+
+---
+
+## 6. Limitations
+
+1. **Probe is a lower bound.** A model may *contain* knowledge it fails to
+   express under a fixed template (paraphrase / surface-form sensitivity).
+   Wiland et al. 2024 show LL-ranking is much more robust than cloze
+   probing, but residual under-counting is still possible (we only used
+   one template per relation; multi-template averaging would tighten the
+   numerator).
+2. **Allen-Zhu&#39;s 2 bpp may not transfer to undertrained models.** Pythia
+   is trained on 300B tokens — likely below the saturation regime where
+   the 2 bpp law is tightest. Reporting also at 3.6 bpp partially
+   addresses this; the 4 bpp upper bound from Morris reduces the share by
+   ~45%, not enough to change conclusions.
+3. **Single architecture family.** All four models are Pythia (GPT-NeoX
+   architecture). Generalisation to LLaMA, Mistral, Phi families is
+   plausible but not directly tested here. Hong et al. 2025 specifically
+   warn that *specialisation* differs across families.
+4. **BEAR + TAXI only partially cover &#34;standard knowledge.&#34;** Common-
+   sense reasoning, procedural knowledge (&#34;how to bake bread&#34;), causal
+   knowledge (&#34;X causes Y&#34;), and temporal knowledge are largely outside
+   the benchmark scope. A more comprehensive enumeration could push the
+   share up by 1–2 orders of magnitude — still well under 1%.
+5. **No quantisation sweep.** Allen-Zhu shows int4 halves capacity. We
+   don&#39;t measure how *standard* knowledge survives quantisation vs. tail
+   knowledge.
+6. **Bootstrap caveat.** The bootstrap 95% CIs are slightly narrower than
+   they should be because we resample within (relation, fact) pairs but
+   not across templates. Adding template-level bootstrap would widen the
+   intervals modestly.
+
+---
+
+## 7. Conclusions &amp; Next Steps
+
+**Answer to the research question.** Across the Pythia model family
+(160M–2.8B) the parameter share devoted to *standard categorical and
+conditional knowledge* — operationalised as the union of BEAR&#39;s 7,731
+relational facts and TAXI&#39;s 1,435 categorical / property queries — is in
+the range **6×10⁻⁵ % – 2×10⁻⁴ % of the model&#39;s bit-budget**, decreasing
+roughly linearly in log-parameter-count from 410M onward. The qualitative
+hypothesis (&#34;a very small component&#34;) is confirmed, with a precise
+quantitative number to back it.
+
+**Implications.**
+- For *distillation / quantisation*: the standard-knowledge core is
+  almost certainly preserved by aggressive (int4) quantisation since it
+  occupies a vanishing fraction of the bit budget.
+- For *interpretability*: the per-fact-footprint upper bounds from
+  Knowledge-Neurons (1–3%) over-estimate the *aggregate* footprint by
+  orders of magnitude — telling us that parameter sharing across facts
+  must be the dominant regime in modern LLMs.
+- For *training-data design*: the gap between BEAR coverage at small vs.
+  large scales (6.1% → 13.1%) suggests standard-knowledge accumulation
+  is not the binding constraint on model scale; reasoning, stylistic, and
+  long-tail accumulation drive most of the capacity demand.
+
+**Recommended follow-ups.**
+1. Replicate on Llama-3.2-{1B, 3B} and Mistral-7B to test architecture
+   transfer (Hong 2025 motivates this).
+2. Re-run with multi-template averaging on BEAR (5–8 templates) and
+   confidence intervals over template variance, to tighten the numerator.
+3. Add a quantisation sweep (fp16 → int8 → int4) to test whether standard
+   facts decay faster or slower than long-tail facts.
+4. Per-fact ROME-style causal localisation on the *known* facts to compare
+   the *measured* per-fact footprint with the analytical KN / ROME bounds.
+5. Extend with commonsense + procedural benchmarks (CommonsenseQA, ATOMIC)
+   to test whether broader &#34;standard&#34; knowledge still keeps the share
+   under 1%.
+
+---
+
+## References
+
+- **Allen-Zhu, Z., Li, Y. (2024)**. *Physics of Language Models: Part 3.3 —
+  Knowledge Capacity Scaling Laws.* arXiv:2404.05405.
+- **Morris, J., Doshi-Velez, F., Hauptmann, A., Schwartz, R. (2025)**.
+  *How much do language models memorize?* arXiv:2505.24832.
+- **Meng, K., Bau, D., Andonian, A., Belinkov, Y. (2022)**. *Locating and
+  Editing Factual Associations in GPT (ROME).* NeurIPS.
+- **Dai, D., Dong, L. et al. (2022)**. *Knowledge Neurons in Pretrained
+  Transformers.* ACL.
+- **Geva, M., Schuster, R., Berant, J., Levy, O. (2021)**. *Transformer
+  Feed-Forward Layers Are Key-Value Memories.* EMNLP.
+- **Hong, Y. et al. (2025)**. *The Rise of Parameter Specialization for
+  Knowledge Storage in LLMs.* NeurIPS.
+- **Powell, D., Gerych, S., Hartvigsen, T. (2024)**. *TAXI: Evaluating
+  Categorical Knowledge Editing for Language Models.* ACL Findings.
+- **Wiland, J., Ploner, M., Akbik, A. (2024)**. *BEAR: A Unified Framework
+  for Evaluating Relational Knowledge in Causal and Masked LMs.* NAACL
+  Findings.
+- **Petroni, F. et al. (2019)**. *Language Models as Knowledge Bases?*
+  EMNLP.
+- **Roberts, A., Raffel, C., Shazeer, N. (2020)**. *How Much Knowledge Can
+  You Pack Into the Parameters of a Language Model?* EMNLP.
+
+### Datasets used
+- **BEAR-small** (`datasets/bear/BEAR_small/`, 7,731 facts × 60 relations).
+- **TAXI baseline-evaluation** (`datasets/taxi/data/baseline-evaluation.json`,
+  1,435 queries).
+
+### Model checkpoints used
+- `EleutherAI/pythia-160m`, `pythia-410m`, `pythia-1b`, `pythia-2.8b`
+  (downloaded automatically via 🤗 Transformers).
+
+
+════════════════════════════════════════════════════════════════════════════════
+                            RESEARCH PLAN
+════════════════════════════════════════════════════════════════════════════════
+
+# Research Plan — How much volume is *standard knowledge* in LLMs?
+
+## Motivation &amp; Novelty Assessment
+
+### Why This Research Matters
+Mechanistic interpretability and capacity-scaling work both touch the question
+&#34;how much of an LLM&#39;s parameters store *facts*?&#34;, but neither isolates the
+specific category of knowledge most users care about: **standard categorical
+and conditional knowledge** (&#34;Peanuts are legumes&#34;, &#34;Georgia is a US state and
+a country&#34;). Quantifying this fraction tells us (a) how much capacity is left
+over for reasoning, style, and long-tail facts, and (b) at what model scale
+diminishing returns set in for *common* knowledge — informing distillation,
+quantisation, and edge-deployment decisions.
+
+### Gap in Existing Work
+- Allen-Zhu &amp; Li (2024) measure ceilings of **2 bits per parameter (bpp)** on
+  synthetic biographies; Morris et al. (2025) measure **3.6 bpp** on uniform
+  random strings. Neither partitions stored bits by knowledge type.
+- TAXI (Powell et al. 2024) probes *consistency* of categorical knowledge
+  under editing but never converts probe accuracy into a parameter footprint.
+- BEAR (Wiland et al. 2024) probes relational knowledge across LM types but
+  again does not connect coverage to parameter share.
+- ROME / Knowledge Neurons localise individual facts but stop at the *per-fact*
+  level — no aggregate &#34;X% of parameters are spent on standard knowledge.&#34;
+- Hong et al. 2025 show specialisation rises with model generation, suggesting
+  any answer is **architecture- and scale-dependent** and must be reported
+  per-model.
+
+### Our Novel Contribution
+We *combine* probe-based knowledge accounting (BEAR + TAXI) with Allen-Zhu&#39;s
+**bpp** ceiling to produce, for the first time:
+1. A direct estimate of the **fraction of LLM parameters devoted to standard
+   categorical and conditional knowledge**, reported across a family of model
+   scales (Pythia 160M / 410M / 1B / 2.8B).
+2. A breakdown by **knowledge type** (categorical vs. relational) and by
+   **superordinate category** (animals, vehicles, foods, …).
+3. A scaling analysis: does the parameter share *grow*, *stay flat*, or
+   *shrink* as models get bigger?
+
+### Experiment Justification
+- **Experiment 1 (BEAR LL-rank probe across Pythia sizes):** measures the
+  acquired bits of *relational* standard knowledge per model, comparable
+  across scales. Justified because BEAR&#39;s log-likelihood ranking eliminates
+  tokenizer artefacts that plague LAMA&#39;s cloze probe.
+- **Experiment 2 (TAXI category probe):** isolates *taxonomic / categorical*
+  knowledge (the headline form of &#34;standard&#34; knowledge). Justified because
+  it&#39;s the only public benchmark with explicit category-membership and
+  category-conditional property structure.
+- **Experiment 3 (Bit-budget → parameter-share conversion):** converts
+  acquired bits to fraction of model capacity using the Allen-Zhu 2 bpp
+  ceiling and Morris 3.6 bpp upper bound. Justified because this is the
+  step missing from prior work and is the deliverable of the project.
+- **Experiment 4 (Per-fact footprint sanity check):** uses an analytical
+  lower bound from Knowledge Neurons (≈4 FFN-intermediate dims/fact, each
+  contributing 2·d_model parameters) to cross-check the bit-budget estimate.
+
+---
+
+## Research Question
+**What fraction of an LLM&#39;s parameters is devoted to standard categorical and
+conditional knowledge?** Specifically, how does this fraction scale with
+model size, and how does it partition by knowledge type?
+
+## Hypothesis Decomposition
+- **H1 (volume):** Standard categorical + conditional knowledge consumes
+  substantially less than 1% of an LLM&#39;s bit budget.
+- **H2 (scaling):** As parameters increase from 160M → 2.8B, the *absolute*
+  bits of standard knowledge stored grow, but the *fraction* of total
+  capacity shrinks (dilution by reasoning / long-tail facts).
+- **H3 (typology):** Categorical &#34;is-a&#34; knowledge is denser per fact than
+  relational &#34;located-in&#34; knowledge, because category membership entails
+  many properties in fewer bits.
+
+## Proposed Methodology
+
+### Approach
+We do **probe-based accounting**, not model surgery. The pipeline:
+
+1. For each model M ∈ {Pythia-160M, -410M, -1B, -2.8B}:
+   - For each (subject, relation, answer) triple in BEAR, compute the
+     pseudo-log-likelihood of every candidate answer given the relation
+     template, take argmax, score accuracy.
+   - For each TAXI baseline-evaluation row, score the forward and reverse
+     queries via log-likelihood ranking over the choice set.
+2. Convert per-relation accuracy A_r and answer-set size |A_r| to acquired
+   bits: `bits_r = N_r · max(0, log2(|A_r|) · (A_r − 1/|A_r|))` —
+   subtract a uniform-random baseline so we count only *acquired* bits.
+3. Sum across relations / properties → total &#34;standard-knowledge bits&#34;.
+4. Divide by total parameter capacity (2 bpp · |params|) → parameter share.
+5. Also report the share under Morris&#39;s 3.6 bpp upper bound.
+
+### Experimental Steps
+1. Set up environment (uv venv, install torch / transformers / lm-pub-quiz).
+2. Verify pre-downloaded BEAR (small + big), TAXI evaluation files load.
+3. Implement `src/probe_bear.py` — log-likelihood ranking probe for any HF
+   causal LM, given a relation&#39;s templates and answer-space labels.
+4. Implement `src/probe_taxi.py` — analogous probe over TAXI fwd_choices.
+5. Implement `src/bit_budget.py` — convert per-relation/per-property accuracy
+   into acquired bits and parameter share.
+6. Run probes for Pythia-160M, -410M, -1B, -2.8B on the BEAR-small subset
+   (7,731 facts × 60 relations) and full TAXI baseline (1,435 records).
+7. Generate plots: bits-acquired vs. params (log-log), parameter-share vs.
+   params, per-category breakdowns.
+
+### Baselines
+- **Random / majority** baseline per relation (acts as the floor we subtract).
+- **Allen-Zhu 2 bpp ceiling** as the denominator → &#34;fraction of bit budget&#34;.
+- **Morris 3.6 bpp ceiling** as an alternative denominator (lower bound on
+  parameter share).
+- **Knowledge-Neurons per-fact footprint** (≈4 FFN intermediate × 2·d_model
+  ≈ 8·d_model parameters / fact) as an independent estimate.
+
+### Evaluation Metrics
+- **Accuracy** per relation / property (probe correctness).
+- **Acquired bits** = N · max(0, log2(|A|) · (acc − 1/|A|)).
+- **Parameter share** = acquired_bits / (bpp · |params|), reported for
+  bpp ∈ {2.0, 3.6}.
+- **Bits per fact** = log2(|A|) · acc — informs &#34;per-fact density&#34;.
+
+### Statistical Analysis Plan
+- **Bootstrap confidence intervals** (1,000 resamples) on per-model
+  accuracy and acquired bits.
+- **Scaling fit:** regress log(acquired_bits) on log(params), report slope
+  and 95% CI; H2 predicts slope &lt; 1 for fraction (negative log-log slope
+  for share).
+- **Per-category one-way ANOVA** on TAXI superordinate categories to test
+  whether categorical density differs by domain (animals vs. drinks etc.).
+
+## Expected Outcomes
+- Standard categorical + relational knowledge is **0.05–0.5%** of parameter
+  bit budget at Pythia-410M and roughly **flat or shrinking** at larger
+  scales. (Back-of-envelope from literature review § 8.5: ~10⁵–10⁶ bits of
+  standard knowledge vs. 10⁹ bits of capacity at 410M.)
+- Categorical TAXI bits-per-fact ≈ 1–3 bits; BEAR bits-per-fact ≈ 3–5 bits
+  (more answer-space entropy).
+
+## Timeline and Milestones
+| Phase | Time | Deliverable |
+|-------|------|-------------|
+| Plan + setup | 30 min | planning.md, env ready |
+| Probe implementation | 60 min | src/probe_bear.py, src/probe_taxi.py |
+| Run experiments | 90 min | results/probe_results.json per model |
+| Analysis + plots | 45 min | figures/, results/summary.json |
+| REPORT.md + README | 30 min | final docs |
+
+## Potential Challenges
+- **Tokenizer multi-token answer issue.** Mitigation: use length-normalised
+  log-likelihood (mean log-prob over answer tokens), as recommended by
+  Wiland et al. 2024.
+- **Memory at Pythia-2.8B.** Mitigation: run in fp16; if still tight, drop
+  to bs=1 with attention checkpointing or skip 2.8B.
+- **Template variance.** Mitigation: average over BEAR&#39;s multiple templates
+  per relation when available.
+- **Allen-Zhu&#39;s 2 bpp may not transfer to undertrained models like Pythia.**
+  We mitigate by *also* reporting raw bits acquired and the 3.6-bpp upper
+  bound, so the result is robust to the choice of ceiling.
+
+## Success Criteria
+- All four Pythia sizes complete BEAR + TAXI probes without crashes.
+- Acquired-bits and parameter-share numbers are computed and plotted.
+- Bootstrap CIs are reported.
+- A clear answer to &#34;what fraction&#34; emerges, even if order-of-magnitude.
+
+
+════════════════════════════════════════════════════════════════════════════════
+                          LITERATURE REVIEW
+════════════════════════════════════════════════════════════════════════════════
+
+# Literature Review
+
+**Project**: How much volume is *standard knowledge* in LLMs?
+**Hypothesis**: The amount of LLM parameters dedicated to encoding standard categorical and conditional knowledge (&#34;Peanuts are legumes&#34;, &#34;Georgia is both a US state and a country&#34;) is a very small component of the total model — but this has not yet been quantitatively estimated.
+
+---
+
+## 1. Research-area overview
+
+The question &#34;how much knowledge is stored in the weights of a language model, and where?&#34; sits at the intersection of three rapidly converging literatures:
+
+1. **Capacity scaling laws** — information-theoretic measurements of how many bits a transformer can encode, parameterised by size, training duration, quantization, and architecture (Allen-Zhu &amp; Li 2024; Morris et al. 2025; Roberts, Raffel, Shazeer 2020).
+2. **Mechanistic interpretability of factual knowledge** — locating *where* specific facts live (Geva et al. 2020 — FFNs as KV memories; Dai et al. 2021 — knowledge neurons; Meng et al. 2022 — ROME causal tracing; Hong et al. 2025 — parameter specialization).
+3. **Knowledge probing** — *what fraction* of relational/commonsense knowledge a model actually contains (Petroni et al. 2019 — LAMA; Wiland et al. 2024 — BEAR; Powell et al. 2024 — TAXI for categorical; Cohen et al. 2024 — RippleEdits for entailments).
+
+Despite the breadth of work, no paper directly answers our quantitative question for the specific subset of *standard* (commonsense / categorical) knowledge. The closest precedents (Allen-Zhu and Morris) measure raw bit-capacity without partitioning by knowledge type; TAXI evaluates *whether* categorical knowledge is consistent under editing but does not measure parameter footprint.
+
+This review distils the load-bearing findings and crystallizes a methodology gap that our experiment can fill.
+
+---
+
+## 2. Key papers
+
+### 2.1 Allen-Zhu &amp; Li, *Physics of Language Models: Part 3.3 — Knowledge Capacity Scaling Laws* (arXiv:2404.05405, 2024)
+
+- **Key contribution**: Quantitative scaling law — sufficiently-trained transformers store **2 bits of knowledge per parameter** (universal across GPT-2/LLaMA/Mistral/MoE; preserved at int8; halved at int4 → 0.7 bpp).
+- **Methodology**: Synthetic biographies with known information content. Define `bioD(N,K,C,D,L,T)` as a controllable family of `(name, attribute, value)` tuples; derive a tight bit-complexity lower bound (Theorem 3.2); train hundreds of GPT-2 models from 1M to 0.5B parameters and read off the capacity ratio
+  R(F) = (learned bits estimated from cross-entropy losses) / (parameter count).
+- **Datasets**: bioS(N), bioSsimple(N), bioR(N) — author-controlled synthetic biographies; bioD(N,K,C,D,L,T) — fully parameterised tuple data.
+- **Notable secondary results**:
+  - Rare knowledge (100 exposures) → 1 bpp (50% capacity loss vs 1000 exposures).
+  - GatedMLP (LLaMA/Mistral) hurts when training is short (1.3× capacity loss at 100 exposures).
+  - **Junk data is catastrophic** — 1:7 useful:junk → 20× capacity loss; *prepending domain tokens recovers most of it*.
+- **Code**: not publicly released; bioD is reimplementable from the paper.
+- **Why central**: Defines the only published *parameter-density* number we can directly use to convert from bits-of-stored-knowledge to fraction-of-parameters.
+
+### 2.2 Morris et al., *How much do language models memorize?* (arXiv:2505.24832, 2025)
+
+- **Key contribution**: A model-capacity definition based on Kolmogorov-style compression that separates **unintended memorization** (information about a specific dataset) from **generalization** (information about the data-generating process). Empirically, GPT-style transformers in fp16 hold **3.5–4 bits per parameter** (point estimate α ≈ 3.64).
+- **Methodology**: Train hundreds of GPT models (500K → 1.5B) on uniform random bitstrings to drive generalization to zero, then measure unintended memorization plateau. Predicts the dataset-size at which double descent kicks in — exactly when dataset bits exceed model capacity bits.
+- **Tension with Allen-Zhu**: 3.6 vs 2 bpp. The two are not contradictory: Morris measures *raw memorizable bits* (uniform random strings); Allen-Zhu measures *retrievable knowledge tuples* (a structured subset of those bits with non-trivial extraction). The structured-knowledge ceiling is lower because the data has prior, the loss is summed over knowledge tokens only, and information must remain functionally accessible.
+- **Why relevant**: Sets the *upper-bound* parameter budget within which all knowledge — standard or otherwise — must fit.
+
+### 2.3 Meng, Bau, Andonian, Belinkov, *Locating and Editing Factual Associations in GPT* (NeurIPS 2022 — ROME)
+
+- **Key contribution**: Two complementary findings:
+  1. **Causal tracing**: middle MLP layers at the *last subject token* causally mediate factual recall (the &#34;early site&#34;). Attention is more important at the late site (the last prompt token).
+  2. **Rank-One Model Editing**: factual associations can be inserted/replaced by a closed-form rank-one update to a single MLP&#39;s down-projection — preserving both generalization (paraphrases) and specificity (other facts).
+- **Methodology**: Causal-mediation analysis (clean / corrupted-subject / patched runs); least-squares update with cached uncentered covariance C = K Kᵀ.
+- **Datasets**: CounterFact (21,919 hand-curated counterfactual rewrites), zsRE, known_1000.
+- **Why central**: ROME&#39;s rank-one update gives us a per-fact parameter footprint estimate (a single scalar Λ × C⁻¹k* contributes ~hidden_dim × intermediate_dim parameters effective).
+
+### 2.4 Dai, Dong, Hao, Sui, Chang, Wei, *Knowledge Neurons in Pretrained Transformers* (ACL 2022)
+
+- **Key contribution**: Integrated-gradient attribution method that identifies ~4 FFN intermediate neurons per fact in BERT-base on PARAREL/T-REx (27,738 facts × 8.6 templates each).
+- **Findings**: Knowledge neurons concentrate in upper layers; suppressing them reduces fact accuracy; amplifying them increases it; surgical edits update facts without fine-tuning.
+- **Why relevant**: Lower-bound on neurons-per-fact; a sparser estimate than ROME&#39;s MLP-layer view.
+
+### 2.5 Geva, Schuster, Berant, Levy, *Transformer Feed-Forward Layers Are Key-Value Memories* (EMNLP 2021)
+
+- **Key contribution**: The two FFN matrices in each transformer block act as keys (input pattern detectors) and values (output distributions). Lower layers detect shallow patterns; upper layers learn semantic patterns. Followed up by Geva et al. 2022 (&#34;Promoting tokens&#34;) — the values can be projected back to vocabulary space to interpret what each neuron writes.
+- **Why central**: The mechanistic scaffolding underlying every subsequent paper in this thread (ROME, Knowledge Neurons, He 2025).
+
+### 2.6 Hong, Zhao, Tang, Deng, Rong, Zhang, *The Rise of Parameter Specialization for Knowledge Storage in LLMs* (NeurIPS 2025)
+
+- **Key contribution**: Across 20 open-source LLMs, **stronger / more recent models exhibit greater parameter specialization** — fewer MLP value vectors per concept, each governing a narrower set of concepts. Defines a Parameter Specialization Score (PSS) using concept-specific masking. Causal training shows specialization → better knowledge utilization.
+- **Implication for our project**: The *fraction* of parameters dedicated to a single fact has been *decreasing* with model generations. Any volume estimate we produce should be reported per-architecture, not as a universal constant.
+
+### 2.7 Powell, Gerych, Hartvigsen, *TAXI: Evaluating Categorical Knowledge Editing for Language Models* (ACL Findings 2024)
+
+- **Key contribution**: First benchmark to evaluate *categorical consistency* of knowledge edits. 41 categories × 164 subjects × 183 properties → 976 edits, 11,120 MCQ queries. Splits property success into *Consistency* (changed properties under new category) vs *Invariance* (unchanged).
+- **Findings**: ROME 0.43 / ICE 0.47 / FT 0.23 consistency vs **human 0.86**. Editors achieve high invariance but low consistency — they edit a single fact but fail to propagate categorical entailments.
+- **Why central**: Most directly aligned with our hypothesis. &#34;Peanuts are legumes&#34; entails dozens of properties (has-shell, contains-protein, edible, ...). TAXI&#39;s structure formalises *standard categorical knowledge* as exactly the property-graph our hypothesis discusses.
+
+### 2.8 Petroni et al., *Language Models as Knowledge Bases?* — LAMA (EMNLP 2019)
+
+- **Key contribution**: First demonstration that pretrained masked LMs answer cloze-style relational queries competitively with traditional KBs. T-REx subset: 41 relations × ≤1000 facts. Limitations (single-token answers, masked-only, unbalanced answer distribution) motivated BEAR.
+
+### 2.9 Wiland, Ploner, Akbik, *BEAR: A Unified Framework for Evaluating Relational Knowledge in Causal and Masked LMs* (NAACL Findings 2024)
+
+- **Key contribution**: Probes LMs by ranking the log-likelihood of full statements rather than predicting a single masked token. Works for both causal and masked LMs without restricting answer-space. Releases BEAR (7,731 instances, 60 relations) and BEAR-big (40,916 instances).
+- **Why central**: The cleanest tool to measure *what fraction of relational knowledge* a modern LLM contains, comparable across architectures.
+
+### 2.10 Roberts, Raffel, Shazeer, *How Much Knowledge Can You Pack Into the Parameters of a Language Model?* (EMNLP 2020)
+
+- **Key contribution**: T5 closed-book QA on Natural Questions / WebQuestions / TriviaQA scales monotonically with parameter count (220M → 11B). Foundational counterpart to Allen-Zhu in real (uncontrolled) data.
+
+### 2.11 Examining Two-Hop Reasoning Through Information Content Scaling (arXiv:2502.03490, 2025)
+
+- Extends bit-complexity / scaling-law framework to multi-hop reasoning — relevant if we want to factor compositional standard knowledge (&#34;Georgia is in North America&#34; entails &#34;Georgia is in the Western Hemisphere&#34;).
+
+---
+
+## 3. Common methodologies
+
+| Method                     | Used in                                          | Output                                    |
+|----------------------------|--------------------------------------------------|-------------------------------------------|
+| Synthetic-data scaling law | Allen-Zhu (Physics 3.3), Morris 2025             | Bits-per-parameter ceiling                 |
+| Cloze probing              | LAMA (single-token), KAMEL (generation)          | &#34;Did the model know fact f?&#34; (binary)     |
+| Multiple-choice probing    | BEAR, TAXI                                       | Accuracy across answer set                 |
+| Closed-book QA             | Roberts et al.                                   | Coverage on a held-out QA benchmark        |
+| Knowledge neurons (IG)     | Dai et al., follow-ups                           | Per-fact neuron set in FFN intermediate    |
+| Causal tracing             | ROME, follow-ups                                 | Per-fact MLP-layer + token-position site   |
+| Parameter specialization   | He / Hong 2025                                   | PSS per concept, per model                 |
+| Editing (ROME / MEMIT / FT)| Most editing papers                              | Edit success / generalization / specificity|
+
+## 4. Standard baselines
+
+- **For relational knowledge volume**: BEAR (modern, general) and LAMA T-REx (legacy reference).
+- **For categorical knowledge**: TAXI consistency / invariance.
+- **For raw capacity**: Allen-Zhu&#39;s 2 bpp and Morris&#39;s 3.6 bpp anchors.
+- **For per-fact footprint**: ROME rank-one update (≈ d_model × d_inter / fact in *one* layer); Knowledge Neurons ≈ 2–5 FFN-intermediate dims per fact.
+
+## 5. Evaluation metrics
+
+- **Accuracy on probe** (BEAR, LAMA, TAXI, CounterFact-test) — what fraction of facts the model knows.
+- **Bits of knowledge stored** (Allen-Zhu) — sum-of-loss formulation; Theorem 3.2 lower bound.
+- **Capacity ratio R(F)** = stored_bits / parameter_count.
+- **Membership-inference scaling law** (Morris) — recovery rate as a function of (capacity, dataset size).
+- **Editing metrics**: Efficacy (post-edit success), Generalization (paraphrases), Specificity (neighbors), Consistency (TAXI), Invariance (TAXI).
+
+## 6. Datasets in the literature (relevant to our hypothesis)
+
+| Dataset           | Size                              | Knowledge type                              | Source                            |
+|-------------------|-----------------------------------|----------------------------------------------|-----------------------------------|
+| LAMA T-REx        | 41 relations × ≤1000 facts        | Relational (Wikidata)                        | Petroni 2019                       |
+| PARAREL           | 27.7K facts × 8.6 templates       | Relational paraphrased                       | Elazar 2021                        |
+| BEAR / BEAR-big   | 7,731 / 40,916 instances · 60 rels| Relational, balanced, multi-token, MCQ        | Wiland 2024                        |
+| CounterFact       | 21,919 cases                      | Relational (counterfactual)                  | Meng 2022                          |
+| zsRE              | varied                            | Zero-shot relation extraction                | Levy 2017 / ROME redistribution    |
+| known_1000        | 1,000                             | Well-known facts                              | Meng 2022                          |
+| TAXI              | 976 edits / 11,120 queries        | **Categorical / taxonomic**                   | Powell 2024                        |
+| RippleEdits       | varies                            | Entailment edits                              | Cohen 2024                         |
+| MQuAKE            | varies                            | Multi-hop edits                               | Zhong 2023                         |
+| bioS / bioR / bioD| arbitrary, controllable           | Synthetic (name, attribute, value)            | Allen-Zhu 2024                     |
+
+## 7. Gaps and opportunities
+
+1. **No prior work directly measures parameter-volume of *categorical* knowledge specifically.** Allen-Zhu measures uniform-random-attribute storage; Morris measures raw memorization; TAXI measures consistency, not parameter cost.
+2. **No bit-budget for entailed properties.** The bit complexity of &#34;peanut → legume&#34; carries downstream entailments (has-shell, contains-protein) &#34;for free&#34; if the model has learned the category abstraction. Quantifying this *compression* is exactly the missing measurement our hypothesis demands.
+3. **Cross-model comparison of per-fact footprint** is sparse. He 2025 shows specialization is rising over generations but does not give absolute parameter-density numbers per knowledge-type.
+4. **Standard vs long-tail knowledge separation.** Mallen et al. 2023 (&#34;When Not to Trust Language Models&#34;) showed long-tail facts behave differently; we should partition our measurements accordingly.
+5. **Quantization × knowledge type** is unexplored. Allen-Zhu shows int4 halves capacity; do *standard* facts survive better than long-tail ones (because of redundant encoding)?
+
+## 8. Recommendations for our experiment
+
+Based on this review, the experiment runner should:
+
+### 8.1 Recommended datasets
+
+- **Primary**: **TAXI** (categorical-knowledge consistency) and **BEAR / BEAR-big** (relational coverage across LM types). These two cover the categorical side (&#34;Peanuts are legumes&#34;) and the conditional/relational side (&#34;Georgia, country, capital, Tbilisi&#34;) of our hypothesis.
+- **Supporting**: CounterFact + ROME notebooks for per-fact parameter-footprint measurement; LAMA T-REx for legacy baselines; PARAREL templates to handle paraphrase variance.
+- **Synthetic harness**: re-implement bioS / bioD generators (≈100 LoC) to obtain controlled bit-budget numbers we can directly translate to &#34;fraction of parameters consumed&#34;.
+
+### 8.2 Recommended baselines
+
+- Allen-Zhu&#39;s 2 bpp ceiling (synthetic) and Morris&#39;s 3.6 bpp (raw memorization) as upper bounds.
+- ROME / Knowledge Neurons per-fact footprint as the *per-fact* baseline.
+- Closed-book QA accuracy (BEAR, TAXI, LAMA) as the *coverage* baseline.
+
+### 8.3 Recommended metrics
+
+- **Standard knowledge bit-budget**: `bits_categorical = N_facts × log2(answer_set_size)` summed over TAXI properties + BEAR relations (with majority-class baseline subtracted to get *acquired* bits).
+- **Standard knowledge parameter share**: `bits_categorical / (2 bits/param × total_params)` — yields the fraction of the model&#39;s bit budget consumed by standard knowledge under the Allen-Zhu accounting.
+- **Per-fact parameter footprint**: rank-one update support (ROME) or knowledge-neuron count × parameter count per neuron.
+
+### 8.4 Methodological considerations
+
+- **Tokenizer/answer-length effects**: prefer BEAR-style log-likelihood ranking over single-token cloze.
+- **Probability calibration**: avoid majority-class artefacts (LAMA&#39;s &#34;Antarctica&#34; issue) by using BEAR or balancing per-relation answers.
+- **Architecture coverage**: test at least one model from each of {Pythia, LLaMA, Mistral, GPT-Neo, Phi} sizes to validate generality, since He 2025 showed specialization differs across families.
+- **Quantization sweep**: evaluate fp16 / int8 / int4 to test how robust *standard* knowledge is vs long-tail.
+- **Junk-data sensitivity**: the 20× hit Allen-Zhu finds with junk data implies our parameter-share estimates are upper bounds; report the figure as &#34;of the bit budget that is actually allocated to knowledge&#34;.
+
+### 8.5 First-pass experimental protocol (sketch)
+
+1. Pick a small, modern open LLM (Pythia-410M and Pythia-2.8B, or Llama-3.2-1B / 3B).
+2. Run **BEAR** to measure relational-knowledge accuracy → bits acquired.
+3. Run **TAXI** to measure categorical-knowledge consistency → bits acquired (with category-membership × property entailment double-counting controlled).
+4. Combine with Allen-Zhu&#39;s 2 bpp ceiling (or measure model-specific capacity via a brief bit-string memorization probe à la Morris) to convert acquired bits → fraction-of-parameters.
+5. Repeat across 3–4 model scales and report scaling.
+
+Expected order-of-magnitude (back-of-envelope, to be refined):
+- TAXI ≈ 10⁴ atomic property facts. At 47 bits/biography (Allen-Zhu&#39;s bioS) the upper bound is ≈ 10⁵–10⁶ bits.
+- LAMA T-REx ≈ 10⁵ facts × ~10 bits = 10⁶ bits.
+- A 1B-parameter model has 2 × 10⁹ bits of capacity (Allen-Zhu) → standard-knowledge share **≈ 0.05–0.1%**.
+- This validates the qualitative hypothesis; the experiment provides the precise number, partitioned by category, and tracks how it shifts with scale and quantization.
+
+
+════════════════════════════════════════════════════════════════════════════════
+                          PAPER REQUIREMENTS
+════════════════════════════════════════════════════════════════════════════════
+
+Generate a complete academic paper with the following structure:
+
+1. TITLE
+   - Clear, specific, informative
+   - Should convey main finding or contribution
+
+2. AUTHOR
+   - Use this exact author line in the \author{} block: Ari Holtzman and NeuriCo
+
+3. ABSTRACT (150-250 words)
+   - Problem statement
+   - Approach
+   - Key results
+   - Significance
+
+4. INTRODUCTION
+   - Research problem and motivation
+   - Gap in existing work
+   - Our contribution (be specific)
+   - Paper organization
+
+5. RELATED WORK
+   - Organized by theme/approach
+   - Position our work relative to prior work
+   - Cite papers from literature review
+
+6. METHODOLOGY
+   - Clear description of approach
+   - Experimental setup
+   - Datasets used
+   - Evaluation metrics
+   - Baselines
+
+7. RESULTS
+   - Present results with tables and figures
+   - Statistical analysis
+   - Comparison to baselines
+   - Ablation studies (if applicable)
+
+8. DISCUSSION
+   - Interpretation of results
+   - Limitations
+   - Broader implications
+
+9. CONCLUSION
+   - Summary of contributions
+   - Key findings
+   - Future work
+
+10. REFERENCES
+   - BibTeX format
+   - All cited papers
+
+════════════════════════════════════════════════════════════════════════════════
+                          OUTPUT FORMAT
+════════════════════════════════════════════════════════════════════════════════
+
+Create a MODULAR LaTeX project with the following directory structure:
+
+paper_draft/
+├── main.tex              # Main file that imports all sections
+├── references.bib        # BibTeX references
+├── sections/
+│   ├── abstract.tex      # Abstract content
+│   ├── introduction.tex  # Introduction section
+│   ├── related_work.tex  # Related work section
+│   ├── methodology.tex   # Methodology section
+│   ├── results.tex       # Results section
+│   ├── discussion.tex    # Discussion section
+│   └── conclusion.tex    # Conclusion section
+├── figures/              # Directory for any generated figures
+├── tables/               # Directory for complex standalone tables
+└── appendix/             # Directory for appendix sections (if needed)
+
+INSTRUCTIONS:
+1. First, create the directory structure above (mkdir -p paper_draft/sections paper_draft/figures paper_draft/tables paper_draft/appendix)
+2. Write main.tex using the EXACT preamble for NEURIPS:
+
+   \documentclass{article}
+   \usepackage[final]{neurips_2025}  % NEURIPS style (neurips_2025.sty is in paper_draft/)
+   \usepackage[hidelinks]{hyperref}  % REQUIRED: clickable links
+   \usepackage{booktabs}  % REQUIRED: professional tables
+   \usepackage{graphicx}
+   \usepackage{amsmath,amssymb}
+
+   % Import command files
+   \input{commands/math}
+   \input{commands/general}
+   \input{commands/macros}
+
+   % Use this bibliography style:
+   \bibliographystyle{plainnat}
+
+   \author{Ari Holtzman and NeuriCo}
+
+   - Use \input{sections/...} to include each section
+   - Use \bibliography{references} for references
+3. Write each section file with COMPLETE content (no placeholders)
+4. Each section file should include its \section{} command
+5. Write references.bib with all citations in BibTeX format
+6. After writing all files, compile the paper:
+   cd paper_draft && pdflatex -interaction=nonstopmode main.tex && bibtex main && pdflatex -interaction=nonstopmode main.tex && pdflatex -interaction=nonstopmode main.tex
+
+This modular structure allows humans to easily:
+- Edit individual sections without navigating a large file
+- Track changes per section
+- Reuse sections across different paper versions
+
+════════════════════════════════════════════════════════════════════════════════
+                          QUALITY REQUIREMENTS
+════════════════════════════════════════════════════════════════════════════════
+
+- Academic tone throughout
+- All claims must be supported by data from the experiment report
+- Proper citations using \cite{} commands
+- Clear figures and tables with proper captions
+- NO placeholder text - every section must have real content
+- The paper MUST compile without errors
+- If compilation fails, debug and fix the LaTeX errors
+
+════════════════════════════════════════════════════════════════════════════════
+                          LAB WRITING STYLE
+════════════════════════════════════════════════════════════════════════════════
+
+Follow these lab-specific conventions to match our paper style:
+
+1. LANGUAGE STYLE:
+   - Use active voice: "We propose", "We examine", "We focus on"
+   - Be direct and confident: "Our main question is...", "We hypothesize that..."
+   - State things clearly and simply - prefer plain language over jargon
+   - Use bold questions as paragraph organizers: {\bf what is X?}
+   - Include specific quantitative claims: "8.97% over baseline"
+   - Avoid fancy wording: "utilize" → "use", "facilitate" → "help"
+
+2. INTRODUCTION STRUCTURE:
+   - Engaging hook (get to the point quickly)
+   - Problem importance
+   - Gap identification
+   - Your approach with method figure reference
+   - Quantitative preview of results
+   - Contribution bullets (3-4 items, action verbs)
+
+3. CONTRIBUTION LISTS:
+   \begin{itemize}[leftmargin=*,itemsep=0pt,topsep=0pt]
+       \item We propose...
+       \item We conduct...
+       \item We complement...
+   \end{itemize}
+
+4. MODULAR COMMANDS STRUCTURE:
+   Command templates are pre-copied to paper_draft/commands/:
+   - math.tex: Math notation macros
+   - general.tex: Formatting macros
+   - macros.tex: Project-specific term definitions (customize this for your paper)
+
+   In main.tex, include:
+   \input{commands/math}
+   \input{commands/general}
+   \input{commands/macros}
+
+5. REFERENCE CONVENTIONS:
+   Use reference macros from math.tex:
+   - \figref{fig:name} for "figure 1" (lowercase, in-sentence)
+   - \Figref{fig:name} for "Figure 1" (capitalized, start of sentence)
+   - \secref{sec:name} for "section 2"
+
+6. TEXT FORMATTING:
+   - Use \para{Header text} for bold paragraph headers
+   - Define method/dataset names with \textsc and \xspace:
+     \newcommand{\methodname}{\textsc{MethodName}\xspace}
+
+7. TABLE FORMATTING:
+   - Use booktabs package (no vertical lines)
+   - Use \resizebox{\textwidth}{!}{...} for wide tables
+   - Use @{} to remove padding at table edges
+   - Use \cmidrule(lr){x-y} for sub-headers
+   - Use \textsc{} for dataset/method names in headers
+   - Bold best results with {\bf ...}
+
+8. FIGURE FORMATTING:
+   - Use 0.32\textwidth for 3-column subfigures
+   - Use 0.95\linewidth for full-width figures
+   - Use \input{figures/legend} for shared legends
+   - Write self-contained captions explaining key observations
+
+9. RESULTS PRESENTATION:
+   - Define \increase and \decrease for colored arrows (green up, red down)
+   - Bold best results in tables
+   - Report confidence intervals when available
+
+10. ALGORITHM STYLING:
+    - Use algpseudocode with [noend]
+    - Use \triangleright for comments
+
+11. HYPERLINKS (REQUIRED):
+    - Always use \usepackage[hidelinks]{hyperref} or with colored links
+    - All citations, section refs, figure refs, table refs must be clickable
+    - This is essential for reader navigation
+
+════════════════════════════════════════════════════════════════════════════════
+                          WORKFLOW: REVIEW AND REFLECT
+════════════════════════════════════════════════════════════════════════════════
+
+Before calling finish, you MUST complete these review steps:
+
+1. REVIEW RESOURCES (at the start):
+   - Read .claude/skills/paper-writer/SKILL.md for detailed guidance
+   - Study templates/paper_writing/lab_style_guide.md for style conventions
+   - Browse paper_examples/ for formatting and language patterns
+
+2. SELF-REFLECTION (before finishing):
+   After writing all sections, review your work against these criteria:
+
+   LANGUAGE CHECK:
+   - [ ] Is the writing clear and jargon-free?
+   - [ ] Are claims specific with quantitative support?
+   - [ ] Is active voice used throughout?
+
+   FORMATTING CHECK:
+   - [ ] Does main.tex include \input{commands/math}, \input{commands/general}, \input{commands/macros}?
+   - [ ] Is hyperref package included for clickable references?
+   - [ ] Do tables use booktabs (no vertical lines)?
+   - [ ] Are best results bolded in tables?
+   - [ ] Are figures/tables properly captioned?
+
+   STRUCTURE CHECK:
+   - [ ] Does introduction follow: hook → importance → gap → approach → preview → contributions?
+   - [ ] Are contribution bullets specific with action verbs?
+   - [ ] Does the paper compile without errors?
+
+3. FIX ISSUES:
+   - Address any issues found in the self-reflection
+   - Re-compile and verify the PDF looks correct
+
+Only after completing this review should you consider the paper finished.

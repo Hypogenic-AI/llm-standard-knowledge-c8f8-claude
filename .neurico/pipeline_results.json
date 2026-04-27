@@ -1,0 +1,27 @@
+{
+  "success": true,
+  "stages": {
+    "resource_finder": {
+      "success": true,
+      "completion_marker": "/workspaces/llm-standard-knowledge-c8f8-claude/.resource_finder_complete",
+      "outputs": {
+        "literature_review": "/workspaces/llm-standard-knowledge-c8f8-claude/literature_review.md",
+        "resources_catalog": "/workspaces/llm-standard-knowledge-c8f8-claude/resources.md",
+        "papers_dir": "/workspaces/llm-standard-knowledge-c8f8-claude/papers",
+        "datasets_dir": "/workspaces/llm-standard-knowledge-c8f8-claude/datasets",
+        "code_dir": "/workspaces/llm-standard-knowledge-c8f8-claude/code"
+      },
+      "log_file": "/workspaces/llm-standard-knowledge-c8f8-claude/logs/resource_finder_claude.log",
+      "transcript_file": "/workspaces/llm-standard-knowledge-c8f8-claude/logs/resource_finder_claude_transcript.jsonl",
+      "elapsed_time": 1880.6729016304016
+    },
+    "experiment_runner": {
+      "success": true,
+      "return_code": 0,
+      "elapsed_time": 4370.759950399399,
+      "log_file": "/workspaces/llm-standard-knowledge-c8f8-claude/logs/execution_claude.log",
+      "transcript_file": "/workspaces/llm-standard-knowledge-c8f8-claude/logs/execution_claude_transcript.jsonl"
+    }
+  },
+  "work_dir": "/workspaces/llm-standard-knowledge-c8f8-claude"
+}

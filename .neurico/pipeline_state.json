@@ -1,0 +1,34 @@
+{
+  "created_at": "2026-04-27T20:31:24.890875",
+  "stages": {
+    "resource_finder": {
+      "status": "completed",
+      "started_at": "2026-04-27T20:31:24.891284",
+      "completed_at": "2026-04-27T21:02:45.565479",
+      "success": true,
+      "outputs": {
+        "literature_review": "/workspaces/llm-standard-knowledge-c8f8-claude/literature_review.md",
+        "resources_catalog": "/workspaces/llm-standard-knowledge-c8f8-claude/resources.md",
+        "papers_dir": "/workspaces/llm-standard-knowledge-c8f8-claude/papers",
+        "datasets_dir": "/workspaces/llm-standard-knowledge-c8f8-claude/datasets",
+        "code_dir": "/workspaces/llm-standard-knowledge-c8f8-claude/code"
+      }
+    },
+    "experiment_runner": {
+      "status": "completed",
+      "started_at": "2026-04-27T21:02:45.565750",
+      "completed_at": "2026-04-27T22:15:36.336232",
+      "success": true,
+      "outputs": {
+        "success": true,
+        "return_code": 0,
+        "elapsed_time": 4370.759950399399,
+        "log_file": "/workspaces/llm-standard-knowledge-c8f8-claude/logs/execution_claude.log",
+        "transcript_file": "/workspaces/llm-standard-knowledge-c8f8-claude/logs/execution_claude_transcript.jsonl"
+      }
+    }
+  },
+  "current_stage": null,
+  "completed": true,
+  "completed_at": "2026-04-27T22:15:36.336700"
+}

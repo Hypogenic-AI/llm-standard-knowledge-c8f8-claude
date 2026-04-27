@@ -1,0 +1,21 @@
+Resource finding phase completed successfully.
+Timestamp: 2026-04-27T21:02:21+00:00
+Papers downloaded: 14
+Datasets prepared: 6 (BEAR, CounterFact, LAMA T-REx, TAXI, PARAREL, bioS/bioD spec)
+Repositories cloned: 8 (BEAR, lm-pub-quiz, LAMA, ROME, MEMIT, knowledge-neurons, ff-layers, TAXI)
+
+Key deliverables:
+- literature_review.md (project-wide synthesis, 14 papers)
+- resources.md (full catalog)
+- papers/README.md (per-paper notes, organised by tier)
+- datasets/README.md (download instructions + .gitignore)
+- code/README.md (per-repo entry points + smoke test)
+
+Recommended primary datasets for the experiment:
+- TAXI (categorical-knowledge consistency)
+- BEAR / BEAR-big (relational-knowledge volume across LM types)
+
+Recommended baselines:
+- 2 bits/param ceiling (Allen-Zhu Physics 3.3)
+- 3.6 bits/param raw memorization (Morris 2025)
+- ROME / Knowledge-Neurons per-fact footprint

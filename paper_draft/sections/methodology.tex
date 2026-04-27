@@ -1,0 +1,72 @@
+\section{Methodology}
+\label{sec:method}
+
+\subsection{Problem Formulation}
+
+Let \(M\) be a causal language model with \(|M|\) parameters. Let \(\gK = \{(s_i, r_i, a_i^*)\}_{i=1}^{N}\) be a knowledge benchmark, where each instance \((s, r, a^*)\) supplies a subject \(s\), a relation/property \(r\), and a gold answer \(a^*\) drawn from an answer set \(\gA_r\) of size \(|\gA_r|\). For a fixed relation template \(\tau_r(\cdot, \cdot)\), the model's prediction is
+\[
+\hat a(s, r) \;=\; \argmax_{a \in \gA_r} \tfrac{1}{|a|} \log p_M\big(a \mid \tau_r(s, \cdot)\big),
+\]
+a length-normalised log-likelihood ranking over the closed answer set. Per-relation accuracy is \(A_r = \frac{1}{N_r}\sum_{i: r_i=r} \mathbf{1}[\hat a(s_i, r) = a_i^*]\).
+
+\subsection{Bit-budget accounting}
+
+The information stored in correctly answering \(N_r\) probe questions over an answer set of size \(|\gA_r|\) is bounded above by \(N_r \log_2 |\gA_r|\). To count only \emph{acquired} bits --- knowledge above what a uniform-random baseline could provide --- we subtract the random floor:
+\begin{equation}
+\text{bits}_r \;=\; N_r \cdot \log_2 |\gA_r| \cdot \max\!\left(0,\;\; A_r - \tfrac{1}{|\gA_r|}\right).
+\label{eq:bits}
+\end{equation}
+We sum across relations to get the model-level total \(\text{bits}_M = \sum_r \text{bits}_r\). The \emph{parameter share} is then
+\begin{equation}
+\text{share}(M) \;=\; \frac{\text{bits}_M}{\beta \cdot |M|},
+\label{eq:share}
+\end{equation}
+where \(\beta\) is the bit-budget per parameter --- we report \(\beta = 2.0\) (the structured-knowledge ceiling of \citet{allenzhu2024knowledge}) as the primary denominator and \(\beta = 3.6\) (the raw-memorization upper bound of \citet{morris2025memorize}) as a secondary, more-conservative one.
+
+The accounting is a \emph{lower bound} on the true bit footprint: a model may contain knowledge it fails to express under a fixed template (paraphrase or surface-form sensitivity), and we use only the first \bear template per relation. Conversely, it is an \emph{upper bound} on the bits explicitly attributable to standard knowledge if some test instances have leaked into pretraining. We discuss both directions in \Secref{sec:discussion}.
+
+\subsection{Models}
+
+We probe four \pythia~\citep{biderman2023pythia} checkpoints from EleutherAI: \(160\)M, \(410\)M, \(1\)B, and \(2.8\)B parameters (\Tabref{tab:models}). All models are loaded in \texttt{fp16} on a single NVIDIA RTX A6000 (\(49\) GB) with random seed \(42\), batch size \(24\) for log-likelihood scoring, and length-normalized log-likelihood. Probing wall-clock times: \(60\)--\(765\) s for \bearsmall and \(18\)--\(42\) s for \taxi per model. We choose \pythia for its open weights, broad scale coverage, and consistent training data (\pile), so cross-scale comparisons are not confounded by data shifts.
+
+\begin{table}[t]
+\centering
+\caption{Models probed. All checkpoints from \texttt{EleutherAI} on Hugging Face.}
+\label{tab:models}
+\begin{tabular}{@{}lrrrl@{}}
+\toprule
+\textbf{Model} & \textbf{Parameters} & $d_{\text{model}}$ & $n_{\text{layers}}$ & \textbf{Source} \\
+\midrule
+\pythiaA  & 162{,}322{,}944 & 768   & 12 & \texttt{EleutherAI/pythia-160m} \\
+\pythiaB  & 405{,}334{,}016 & 1{,}024 & 24 & \texttt{EleutherAI/pythia-410m} \\
+\pythiaC  & 1{,}011{,}781{,}632 & 2{,}048 & 16 & \texttt{EleutherAI/pythia-1b} \\
+\pythiaD  & 2{,}775{,}208{,}960 & 2{,}560 & 32 & \texttt{EleutherAI/pythia-2.8b} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Datasets}
+
+\para{\bearsmall~\citep{wiland2024bear}.} \(7{,}731\) (subject, relation, answer) triples across \(60\) Wikidata relations. Average answer-set size is \(31.7\) (range \(5\)--\(60\)). Standard relational knowledge: ``the head of government of \(X\) is \(Y\)'', ``the capital of \(X\) is \(Y\)''. The first template per relation is taken from \texttt{metadata\_relations.json}, with the subject substituted and the predicted continuation scored against each candidate label.
+
+\para{\taxi baseline-evaluation~\citep{powell2024taxi}.} \(1{,}435\) categorical queries across six superordinate categories (animal, plant, vehicle, instrument, food, drink) and \(53\) properties. Standard categorical knowledge: ``a Siamese is a kind of cat'', ``a Labrador has 4 legs''. We score forward queries via log-likelihood ranking over the published forward-choice set, so the candidate set varies per query.
+
+\subsection{Metrics}
+
+We report (i) per-relation \emph{accuracy} \(A_r\), (ii) \emph{acquired bits} per relation and aggregated, (iii) \emph{parameter share} at \(\beta = 2.0\) and \(\beta = 3.6\), (iv) bootstrap \(95\%\) confidence intervals on the combined parameter share (\(400\) resamples; per-fact unit, using each relation's actual answer-set size), and (v) a log-log scaling regression of acquired bits versus parameter count. As a cross-check we compute analytical per-fact-footprint upper bounds:
+\[
+\text{share}_{\kn}(M) \;=\; \frac{N^{\text{known}}_M \cdot 8 \cdot d_{\text{model}}}{|M|},
+\qquad
+\text{share}_{\rome}(M) \;=\; \frac{N^{\text{known}}_M \cdot (d_{\text{model}} + d_{\text{inter}})}{|M|}.
+\]
+These assume exclusive parameter ownership per fact (no sharing) and are therefore loose upper bounds; comparing them to \(\text{share}(M)\) tells us how aggressively parameter sharing must be operating.
+
+\subsection{Reproducibility}
+
+Random seeds are fixed (Python, NumPy, torch). Probing pipelines are implemented in \texttt{src/probe\_bear.py}, \texttt{src/probe\_taxi.py}, \texttt{src/run\_one.py}; analysis in \texttt{src/analyze.py}, \texttt{src/breakdown.py}. All numbers reported in \Secref{sec:results} reproduce from \texttt{results/summary\_table.csv}, \texttt{results/bootstrap\_share.json}, \texttt{results/scaling\_regression.json}, and \texttt{results/per\_fact\_footprint.json}. Reproducing the full sweep:
+\begin{verbatim}
+source .venv/bin/activate
+python src/run_one.py --model EleutherAI/pythia-410m
+python src/analyze.py
+python src/breakdown.py
+\end{verbatim}

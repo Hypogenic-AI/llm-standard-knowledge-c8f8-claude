@@ -1,0 +1,8 @@
+PDF: papers/geva2020_ffn_kv_memories.pdf
+Total pages: 12
+Pages per chunk: 4
+
+Chunks:
+  geva2020_ffn_kv_memories_chunk_001.pdf: pages 1-4
+  geva2020_ffn_kv_memories_chunk_002.pdf: pages 5-8
+  geva2020_ffn_kv_memories_chunk_003.pdf: pages 9-12

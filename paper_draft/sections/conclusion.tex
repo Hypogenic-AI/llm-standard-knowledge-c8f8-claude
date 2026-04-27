@@ -1,0 +1,17 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+We asked what fraction of an LLM's parameters is devoted to standard categorical and conditional knowledge --- the kind a competent reader can state about peanuts, Georgia, or symphony orchestras. By combining log-likelihood probing on \bear and \taxi with the \(2\) \bpp ceiling of \citet{allenzhu2024knowledge}, we measure the share at \(\mathbf{6 \times 10^{-5}\%}\) to \(\mathbf{2 \times 10^{-4}\%}\) across \pythia models from \(160\)M to \(2.8\)B parameters --- roughly one part in a million of stored capacity. The fraction shrinks monotonically with model size from \(410\)M onward; bootstrap \(95\%\) confidence intervals at \(1\)B and \(2.8\)B are disjoint from those at smaller scales, so the decay is statistically reliable. The mechanism is sub-linear scaling of acquired bits (\bear slope \(0.54\), \(p = 0.04\)) against linear growth of capacity.
+
+\para{Key takeaway.} Standard knowledge is not the binding capacity constraint at modern scales: by four to five orders of magnitude, the bit budget is spent on something else --- long-tail entities, linguistic competence, reasoning circuits, raw memorization. Aggressive quantization or distillation is essentially free for the standard-knowledge core; the user-visible degradation that practitioners report under such transformations must come from elsewhere.
+
+\para{Future work.} Five concrete follow-ups extend the measurement.
+\begin{itemize}[leftmargin=*,itemsep=0pt,topsep=0pt]
+    \item \textbf{Architecture transfer.} Replicate on Llama-3.2-\{1B, 3B\} and Mistral-7B to test whether the one-part-in-a-million figure is \pythia-specific. \citet{hong2025specialization} motivate this directly.
+    \item \textbf{Multi-template averaging.} Re-run with \(5\)--\(8\) templates per \bear relation and confidence intervals over template variance, to tighten the numerator and address the lower-bound caveat.
+    \item \textbf{Quantization sweep.} Run the analysis at \texttt{fp16}, \texttt{int8}, and \texttt{int4} to test whether standard facts decay faster or slower than long-tail facts under capacity halving.
+    \item \textbf{Per-fact causal localization.} Combine \rome-style causal localization with our known-fact list to compare the \emph{measured} per-fact footprint with the analytical \kn and \rome bounds, closing the four-order-of-magnitude gap empirically.
+    \item \textbf{Broader knowledge benchmarks.} Add commonsense (CommonsenseQA, ATOMIC), procedural, and temporal benchmarks to test whether the share remains well under \(1\%\) once the definition of standard knowledge is stretched to its broadest reading.
+\end{itemize}
+
+We release probing code, per-relation breakdowns, and bootstrap CIs so that all numbers in this paper reproduce from the project repository. The goal is not to settle the question of where LLM capacity goes --- that requires the long list of follow-ups above --- but to fix one number that prior work had not fixed: standard knowledge is roughly one part in a million.

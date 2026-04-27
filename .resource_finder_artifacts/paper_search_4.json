@@ -1,0 +1,449 @@
+{
+  "success": true,
+  "total": 49,
+  "papers": [
+    {
+      "title": "Instilling Type Knowledge in Language Models via Multi-Task QA",
+      "year": 2022,
+      "authors": "Shuyang Li, Mukund Sridhar, C. Prakash, Jin Cao, Wael Hamza, Julian McAuley",
+      "url": "https://www.semanticscholar.org/paper/d1aba41f05b1deed43b804dd440b3da42d7c26fc",
+      "relevance": 3,
+      "abstract": "Understanding human language often necessitates understanding entities and their place in a taxonomy of knowledge -- their types. Previous methods to learn entity types rely on training classifiers on datasets with coarse, noisy, and incomplete labels. We introduce a method to instill fine-grained type knowledge in language models with text-to-text pre-training on type-centric questions leveraging knowledge base documents and knowledge graphs. We create the WikiWiki dataset: entities and passages from 10M Wikipedia articles linked to the Wikidata knowledge graph with 41K types. Models trained on WikiWiki achieve state-of-the-art performance in zero-shot dialog state tracking benchmarks, accurately infer entity types in Wikipedia articles, and can discover new types deemed useful by human judges.",
+      "citations": 7
+    },
+    {
+      "title": "ConcEPT: Concept-Enhanced Pre-Training for Language Models",
+      "year": 2024,
+      "authors": "Xintao Wang, Zhouhong Gu, Jiaqing Liang, Dakuan Lu, Yanghua Xiao, Wei Wang",
+      "url": "https://www.semanticscholar.org/paper/264c5586a94f4c5b216bef9aeacee67d7fcfeba6",
+      "relevance": 3,
+      "abstract": "Pre-trained language models (PLMs) have been prevailing in state-of-the-art methods for natural language processing, and knowledge-enhanced PLMs are further proposed to promote model performance in knowledge-intensive tasks. However, conceptual knowledge, one essential kind of knowledge for human cognition, still remains understudied in this line of research. This limits PLMs' performance in scenarios requiring human-like cognition, such as understanding long-tail entities with concepts. In this paper, we propose ConcEPT, which stands for Concept-Enhanced Pre-Training for language models, to infuse conceptual knowledge into PLMs. ConcEPT exploits external taxonomies with entity concept prediction, a novel pre-training objective to predict the concepts of entities mentioned in the pre-training contexts. Unlike previous concept-enhanced methods, ConcEPT can be readily adapted to various downstream applications without entity linking or concept mapping. Results of extensive experiments show the effectiveness of ConcEPT in four tasks such as entity typing, which validates that our model gains improved conceptual knowledge with concept-enhanced pre-training.",
+      "citations": 1
+    },
+    {
+      "title": "Cat2Type: Wikipedia Category Embeddings for Entity Typing in Knowledge Graphs",
+      "year": 2021,
+      "authors": "Russa Biswas, Radina Sofronova, Harald Sack, Mehwish Alam",
+      "url": "https://www.semanticscholar.org/paper/93adb9609268ba308eb9d42843761f4dcd20c849",
+      "relevance": 2,
+      "abstract": "The entity type information in Knowledge Graphs (KGs) such as DBpedia, Freebase, etc. is often incomplete due to automated generation. Entity Typing is the task of assigning or inferring the semantic type of an entity in a KG. This paper introduces an approach named Cat2Type which exploits the Wikipedia Categories to predict the missing entity types in a KG. This work extracts information from Wikipedia Category names and the Wikipedia Category graph which are the sources of rich semantic information about the entities. In Cat2Type, the characteristic features of the entities encapsulated in Wikipedia Category names are exploited using Neural Language Models. On the other hand, a Wikipedia Category graph is constructed to capture the connection between the categories. The Node level representations are learned by optimizing the neighbourhood information on the Wikipedia category graph. These representations are then used for entity type prediction via classification. The performance of Cat2Type is assessed on two real-world benchmark datasets DBpedia630k and FIGER. The experiments depict that Cat2Type obtained a significant improvement over state-of-the-art approaches.",
+      "citations": 10
+    },
+    {
+      "title": "LLMs4OL: Large Language Models for Ontology Learning",
+      "year": 2023,
+      "authors": "Hamed Babaei Giglou, J. D\u2019Souza, S. Auer",
+      "url": "https://www.semanticscholar.org/paper/78b1601c013769294a1927d43e50dfa81d6af75f",
+      "relevance": 2,
+      "abstract": "We propose the LLMs4OL approach, which utilizes Large Language Models (LLMs) for Ontology Learning (OL). LLMs have shown significant advancements in natural language processing, demonstrating their ability to capture complex language patterns in different knowledge domains. Our LLMs4OL paradigm investigates the following hypothesis: \\textit{Can LLMs effectively apply their language pattern capturing capability to OL, which involves automatically extracting and structuring knowledge from natural language text?} To test this hypothesis, we conduct a comprehensive evaluation using the zero-shot prompting method. We evaluate nine different LLM model families for three main OL tasks: term typing, taxonomy discovery, and extraction of non-taxonomic relations. Additionally, the evaluations encompass diverse genres of ontological knowledge, including lexicosemantic knowledge in WordNet, geographical knowledge in GeoNames, and medical knowledge in UMLS.",
+      "citations": 157
+    },
+    {
+      "title": "TAXI: Evaluating Categorical Knowledge Editing for Language Models",
+      "year": 2024,
+      "authors": "Derek Powell, Walter Gerych, Thomas Hartvigsen",
+      "url": "https://www.semanticscholar.org/paper/553c6c1d0b983b3ca51c9ecee36b113cc0d09f04",
+      "relevance": 2,
+      "abstract": "Humans rarely learn one fact in isolation. Instead, learning a new fact induces knowledge of other facts about the world. For example, in learning a korat is a type of cat, you also infer it is a mammal and has claws, ensuring your model of the world is consistent. Knowledge editing aims to inject new facts into language models to improve their factuality, but current benchmarks fail to evaluate consistency, which is critical to ensure efficient, accurate, and generalizable edits. We manually create TAXI, a new benchmark dataset specifically created to evaluate consistency in categorical knowledge edits. TAXI contains 11,120 multiple-choice queries for 976 edits spanning 41 categories (e.g., Dogs), 164 subjects (e.g., Labrador), and 183 properties (e.g., is a mammal). We then use TAXI to evaluate popular editors' categorical consistency, measuring how often editing a subject's category appropriately edits its properties. We find that 1) the editors achieve marginal, yet non-random consistency, 2) their consistency far underperforms human baselines, and 3) consistency is more achievable when editing atypical subjects Our code and data are available at https://github.com/derekpowell/taxi.",
+      "citations": 7
+    },
+    {
+      "title": "On the Complementary Nature of Knowledge Graph Embedding, Fine Grain Entity Types, and Language Modeling",
+      "year": 2020,
+      "authors": "Rajat Patel, Francis Ferraro",
+      "url": "https://api.semanticscholar.org/CorpusId:222290755",
+      "relevance": 2,
+      "abstract": "We demonstrate the complementary natures of neural knowledge graph embedding, fine-grain entity type prediction, and neural language modeling. We show that a language model-inspired knowledge graph embedding approach yields both improved knowledge graph embeddings and fine-grain entity type representations. Our work also shows that jointly modeling both structured knowledge tuples and language improves both.",
+      "citations": 2
+    },
+    {
+      "title": "KaFSP: Knowledge-Aware Fuzzy Semantic Parsing for Conversational Question Answering over a Large-Scale Knowledge Base",
+      "year": 2022,
+      "authors": "Junzhuo Li, Deyi Xiong",
+      "url": "https://api.semanticscholar.org/CorpusId:248780359",
+      "relevance": 2,
+      "abstract": "In this paper, we study two issues of semantic parsing approaches to conversational question answering over a large-scale knowledge base: (1) The actions defined in grammar are not sufficient to handle uncertain reasoning common in real-world scenarios. (2) Knowledge base information is not well exploited and incorporated into semantic parsing. To mitigate the two issues, we propose a knowledge-aware fuzzy semantic parsing framework (KaFSP). It defines fuzzy comparison operations in the grammar system for uncertain reasoning based on the fuzzy set theory. In order to enhance the interaction between semantic parsing and knowledge base, we incorporate entity triples from the knowledge base into a knowledge-aware entity disambiguation module. Additionally, we propose a multi-label classification framework to not only capture correlations between entity types and relations but also detect knowledge base information relevant to the current utterance. Both enhancements are based on pre-trained language models. Experiments on a large-scale conversational question answering benchmark demonstrate that the proposed KaFSP achieves significant improvements over previous state-of-the-art models, setting new SOTA results on 8 out of 10 question types, gaining improvements of over 10% F1 or accuracy on 3 question types, and improving overall F1 from 83.01% to 85.33%. The source code of KaFSP is available at https://github.com/tjunlp-lab/KaFSP.",
+      "citations": 16
+    },
+    {
+      "title": "Automated Mining of Structured Knowledge from Text in the Era of Large Language Models",
+      "year": 2024,
+      "authors": "Yunyi Zhang, Ming Zhong, Siru Ouyang, Yizhu Jiao, Sizhe Zhou, Linyi Ding, Jiawei Han",
+      "url": "https://api.semanticscholar.org/CorpusId:271961567",
+      "relevance": 2,
+      "abstract": "Massive amount of unstructured text data are generated daily, ranging from news articles to scientific papers. How to mine structured knowledge from the text data remains a crucial research question. Recently, large language models (LLMs) have shed light on the text mining field with their superior text understanding and instruction-following ability. There are typically two ways of utilizing LLMs: fine-tune the LLMs with human-annotated training data, which is labor intensive and hard to scale; prompt the LLMs in a zero-shot or few-shot way, which cannot take advantage of the useful information in the massive text data. Therefore, it remains a challenge on automated mining of structured knowledge from massive text data in the era of large language models. In this tutorial, we cover the recent advancements in mining structured knowledge using language models with very weak supervision. We will introduce the following topics in this tutorial: (1) introduction to large language models, which serves as the foundation for recent text mining tasks, (2) ontology construction, which automatically enriches an ontology from a massive corpus, (3) weakly-supervised text classification in flat and hierarchical label space, (4) weakly-supervised information extraction, which extracts entity and relation structures.",
+      "citations": 6
+    },
+    {
+      "title": "A Multi-Stage Framework with Taxonomy-Guided Reasoning for Occupation Classification Using Large Language Models",
+      "year": 2025,
+      "authors": "P. Achananuparp, Ee-Peng Lim",
+      "url": "https://api.semanticscholar.org/CorpusId:277066010",
+      "relevance": 2,
+      "abstract": "Automatically annotating job data with standardized occupations from taxonomies, known as occupation classification, is crucial for labor market analysis. However, this task is often hindered by data scarcity and the challenges of manual annotations. While large language models (LLMs) hold promise due to their extensive world knowledge and in-context learning capabilities, their effectiveness depends on their knowledge of occupational taxonomies, which remains unclear. In this study, we assess the ability of LLMs to generate precise taxonomic entities from taxonomy, highlighting their limitations, especially for smaller models. To address these challenges, we propose a multi-stage framework consisting of inference, retrieval, and reranking stages, which integrates taxonomy-guided reasoning examples to enhance performance by aligning outputs with taxonomic knowledge. Evaluations on a large-scale dataset show that our framework not only enhances occupation and skill classification tasks, but also provides a cost-effective alternative to frontier models like GPT-4o, significantly reducing computational costs while maintaining strong performance. This makes it a practical and scalable solution for occupation classification and related tasks across LLMs.",
+      "citations": 1
+    },
+    {
+      "title": "Creating a Fine Grained Entity Type Taxonomy Using LLMs",
+      "year": 2024,
+      "authors": "Michael Gunn, Dohyun Park, Nidhish Kamath",
+      "url": "https://api.semanticscholar.org/CorpusId:267760005",
+      "relevance": 1,
+      "abstract": "In this study, we investigate the potential of GPT-4 and its advanced iteration, GPT-4 Turbo, in autonomously developing a detailed entity type taxonomy. Our objective is to construct a comprehensive taxonomy, starting from a broad classification of entity types - including objects, time, locations, organizations, events, actions, and subjects - similar to existing manually curated taxonomies. This classification is then progressively refined through iterative prompting techniques, leveraging GPT-4's internal knowledge base. The result is an extensive taxonomy comprising over 5000 nuanced entity types, which demonstrates remarkable quality upon subjective evaluation. We employed a straightforward yet effective prompting strategy, enabling the taxonomy to be dynamically expanded. The practical applications of this detailed taxonomy are diverse and significant. It facilitates the creation of new, more intricate branches through pattern-based combinations and notably enhances information extraction tasks, such as relation extraction and event argument extraction. Our methodology not only introduces an innovative approach to taxonomy creation but also opens new avenues for applying such taxonomies in various computational linguistics and AI-related fields.",
+      "citations": 5
+    },
+    {
+      "title": "Ontology Enrichment for Effective Fine-grained Entity Typing",
+      "year": 2023,
+      "authors": "Si-yuan Ouyang, Jiaxin Huang, Pranav Pillai, Yunyi Zhang, Yu Zhang, Jiawei Han",
+      "url": "https://api.semanticscholar.org/CorpusId:263908881",
+      "relevance": 1,
+      "abstract": "Fine-grained entity typing (FET) is the task of identifying specific entity types at a fine-grained level for entity mentions based on their contextual information. Conventional methods for FET require extensive human annotation, which is time-consuming and costly given the massive scale of data. Recent studies have been developing weakly supervised or zero-shot approaches. We study the setting of zero-shot FET where only an ontology is provided. However, most existing ontology structures lack rich supporting information and even contain ambiguous relations, making them ineffective in guiding FET. Recently developed language models, though promising in various few-shot and zero-shot NLP tasks, may face challenges in zero-shot FET due to their lack of interaction with task-specific ontology. In this study, we propose \u00f8urs, where we (1) enrich each node in the ontology structure with two categories of extra information:instance information for training sample augmentation andtopic information to relate types with contexts, and (2) develop a coarse-to-fine typing algorithm that exploits the enriched information by training an entailment model with contrasting topics and instance-based augmented training samples. Our experiments show that \u00f8urs achieves high-quality fine-grained entity typing without human annotation, outperforming existing zero-shot methods by a large margin and rivaling supervised methods. \u00f8urs also enjoys strong transferability to unseen and finer-grained types. We will open source this work upon acceptance.",
+      "citations": 8
+    },
+    {
+      "title": "Refining Wikidata Taxonomy using Large Language Models",
+      "year": 2024,
+      "authors": "Yiwen Peng, Thomas Bonald, Mehwish Alam",
+      "url": "https://api.semanticscholar.org/CorpusId:272463669",
+      "relevance": 1,
+      "abstract": "Due to its collaborative nature, Wikidata is known to have a complex taxonomy, with recurrent issues like the ambiguity between instances and classes, the inaccuracy of some taxonomic paths, the presence of cycles, and the high level of redundancy across classes. Manual efforts to clean up this taxonomy are time-consuming and prone to errors or subjective decisions. We present WiKC, a new version of Wikidata taxonomy cleaned automatically using a combination of Large Language Models (LLMs) and graph mining techniques. Operations on the taxonomy, such as cutting links or merging classes, are performed with the help of zero-shot prompting on an open-source LLM. The quality of the refined taxonomy is evaluated from both intrinsic and extrinsic perspectives, on a task of entity typing for the latter, showing the practical interest of WiKC.",
+      "citations": 5
+    },
+    {
+      "title": "KMIR: A Benchmark for Evaluating Knowledge Memorization, Identification and Reasoning Abilities of Language Models",
+      "year": 2022,
+      "authors": "Daniel Gao, Yantao Jia, Lei Li, Chengzhen Fu, Zhicheng Dou, Hao Jiang, Xinyu Zhang, Lei Chen, Zhao Cao",
+      "url": "https://api.semanticscholar.org/CorpusId:247158553",
+      "relevance": 1,
+      "abstract": "Previous works show the great potential of pre-trained language models (PLMs) for storing a large amount of factual knowledge. However, to figure out whether PLMs can be reliable knowledge sources and used as alternative knowledge bases (KBs), we need to further explore some critical features of PLMs. Firstly, knowledge memorization and identification abilities: traditional KBs can store various types of entities and relationships; do PLMs have a high knowledge capacity to store different types of knowledge? Secondly, reasoning ability: a qualified knowledge source should not only provide a collection of facts, but support a symbolic reasoner. Can PLMs derive new knowledge based on the correlations between facts? To evaluate these features of PLMs, we propose a benchmark, named Knowledge Memorization, Identification, and Reasoning test (KMIR). KMIR covers 3 types of knowledge, including general knowledge, domain-specific knowledge, and commonsense, and provides 184,348 well-designed questions. Preliminary experiments with various representative pre-training language models on KMIR reveal many interesting phenomenons: 1) The memorization ability of PLMs depends more on the number of parameters than training schemes. 2) Current PLMs are struggling to robustly remember the facts. 3) Model compression technology retains the amount of knowledge well, but hurts the identification and reasoning abilities. We hope KMIR can facilitate the design of PLMs as better knowledge sources.",
+      "citations": 9
+    },
+    {
+      "title": "Extending semantic context analysis using machine learning services to process unstructured data",
+      "year": 2021,
+      "authors": "A. Wilhelm, W. Ziegler",
+      "url": "https://api.semanticscholar.org/CorpusId:235831754",
+      "relevance": 1,
+      "abstract": "The primary focus of technical communication (TC) in the past decade has been the system-assisted generation and utilization of standardized, structured, and classified content for dynamic output solutions. Nowadays, machine learning (ML) approaches offer a new opportunity to integrate unstructured data into existing knowledge bases without the need to manually organize information into topic-based content enriched with semantic metadata. To make the field of artificial intelligence (AI) more accessible for technical writers and content managers, cloud-based machine learning as a service (MLaaS) solutions provide a starting point for domain-specific ML modelling while unloading the modelling process from extensive coding, data processing and storage demands. Therefore, information architects can focus on information extraction tasks and on prospects to include pre-existing knowledge from other systems into the ML modelling process. In this paper, the capability and performance of a cloud-based ML service, IBM Watson, are analysed to assess their value for semantic context analysis. The ML model is based on a supervised learning method and features deep learning (DL) and natural language processing (NLP) techniques. The subject of the analysis is a corpus of scientific publications on the 2019 Coronavirus disease. The analysis focuses on information extractions regarding preventive measures and effects of the pandemic on healthcare workers.",
+      "citations": 1
+    },
+    {
+      "title": "KLMo: Knowledge Graph Enhanced Pretrained Language Model with Fine-Grained Relationships",
+      "year": 2021,
+      "authors": "Lei He, Suncong Zheng, Tao Yang, Feng Zhang",
+      "url": "https://www.semanticscholar.org/paper/e7d4fd44400391888226b3f5d8acac0ab2106bac",
+      "relevance": 1,
+      "abstract": "Interactions between entities in knowledge graph (KG) provide rich knowledge for language representation learning. However, existing knowledge-enhanced pretrained language models (PLMs) only focus on entity information and ignore the \ufb01ne-grained relationships between entities. In this work, we propose to incorporate KG (including both entities and relations) into the language learning process to obtain KG-enhanced pretrained Language Model, namely KLMo. Speci\ufb01cally, a novel knowledge aggregator is designed to explicitly model the interaction between entity spans in text and all entities and relations in a contextual KG. An relation prediction objective is utilized to incorporate relation information by distant supervision. An entity linking objec-tive is further utilized to link entity spans in text to entities in KG. In this way, the structured knowledge can be effectively integrated into language representations. Experimental results demonstrate that KLMo achieves great improvements on several knowledge-driven tasks, such as entity typing and relation clas-si\ufb01cation, comparing with the state-of-the-art knowledge-enhanced PLMs.",
+      "citations": 29
+    },
+    {
+      "title": "Are Large Language Models a Good Replacement of Taxonomies?",
+      "year": 2024,
+      "authors": "Yushi Sun, Hao Xin, Kai Sun, Y. Xu, Xiao Yang, Xin Dong, Nan Tang, Lei Chen",
+      "url": "https://api.semanticscholar.org/CorpusId:270560618",
+      "relevance": 1,
+      "abstract": "\n Large language models (LLMs) demonstrate an impressive ability to internalize knowledge and answer natural language questions. Although previous studies validate that LLMs perform well on general knowledge while presenting poor performance on long-tail nuanced knowledge, the community is still doubtful about whether the traditional knowledge graphs should be replaced by LLMs. In this paper, we ask\n if the schema of knowledge graph (i.e., taxonomy) is made obsolete by LLMs.\n Intuitively, LLMs should perform well on common taxonomies and at taxonomy levels that are common to people. Unfortunately, there lacks a comprehensive benchmark that evaluates the LLMs over a wide range of taxonomies from common to specialized domains and at levels from root to leaf so that we can draw a confident conclusion. To narrow the research gap, we constructed a novel taxonomy hierarchical structure discovery benchmark named TaxoGlimpse to evaluate the performance of LLMs over taxonomies. TaxoGlimpse covers ten representative taxonomies from common to specialized domains with in-depth experiments of different levels of entities in this taxonomy from root to leaf. Our comprehensive experiments of eighteen LLMs under three prompting settings validate that LLMs perform miserably poorly in handling specialized taxonomies and leaf-level entities. Specifically, the QA accuracy of the best LLM drops by up to 30% as we go from common to specialized domains and from root to leaf levels of taxonomies.\n",
+      "citations": 24
+    },
+    {
+      "title": "Prompting or Fine-tuning? A Comparative Study of Large Language Models for Taxonomy Construction",
+      "year": 2023,
+      "authors": "Boqi Chen, Fan Yi, D\u00e1niel Varr\u00f3",
+      "url": "https://api.semanticscholar.org/CorpusId:261531340",
+      "relevance": 1,
+      "abstract": "Taxonomies represent hierarchical relations between entities, frequently applied in various software modeling and natural language processing (NLP) activities. They are typically subject to a set of structural constraints restricting their content. However, manual taxonomy construction can be time-consuming, incomplete, and costly to maintain. Recent studies of large language models (LLMs) have demonstrated that appropriate user inputs (called prompting) can effectively guide LLMs, such as GPT-3, in diverse NLP tasks without explicit (re-)training. However, existing approaches for automated taxonomy construction typically involve fine-tuning a language model by adjusting model parameters. In this paper, we present a general framework for taxonomy construction that takes into account structural constraints. We subsequently conduct a systematic comparison between the prompting and fine-tuning approaches performed on a hypernym taxonomy and a novel computer science taxonomy dataset. Our result reveals the following: (1) Even without explicit training on the dataset, the prompting approach outperforms fine-tuning-based approaches. Moreover, the performance gap between prompting and fine-tuning widens when the training dataset is small. However, (2) taxonomies generated by the fine-tuning approach can be easily post-processed to satisfy all the constraints, whereas handling violations of the taxonomies produced by the prompting approach can be challenging. These evaluation findings provide guidance on selecting the appropriate method for taxonomy construction and highlight potential enhancements for both approaches.",
+      "citations": 35
+    },
+    {
+      "title": "Put It Back: Entity Typing with Language Model Enhancement",
+      "year": 2018,
+      "authors": "Ji Xin, Hao Zhu, Xu Han, Zhiyuan Liu, Maosong Sun",
+      "url": "https://api.semanticscholar.org/CorpusId:53080998",
+      "relevance": 1,
+      "abstract": "Entity typing aims to classify semantic types of an entity mention in a specific context. Most existing models obtain training data using distant supervision, and inevitably suffer from the problem of noisy labels. To address this issue, we propose entity typing with language model enhancement. It utilizes a language model to measure the compatibility between context sentences and labels, and thereby automatically focuses more on context-dependent labels. Experiments on benchmark datasets demonstrate that our method is capable of enhancing the entity typing model with information from the language model, and significantly outperforms the state-of-the-art baseline. Code and data for this paper can be found from https://github.com/thunlp/LME.",
+      "citations": 25
+    },
+    {
+      "title": "Ultra-Fine Entity Typing with Prior Knowledge about Labels: A Simple Clustering Based Strategy",
+      "year": 2023,
+      "authors": "N. Li, Zied Bouraoui, S. Schockaert",
+      "url": "https://api.semanticscholar.org/CorpusId:258832899",
+      "relevance": 1,
+      "abstract": "Ultra-fine entity typing (UFET) is the task of inferring the semantic types, from a large set of fine-grained candidates, that apply to a given entity mention. This task is especially challenging because we only have a small number of training examples for many of the types, even with distant supervision strategies. State-of-the-art models, therefore, have to rely on prior knowledge about the type labels in some way. In this paper, we show that the performance of existing methods can be improved using a simple technique: we use pre-trained label embeddings to cluster the labels into semantic domains and then treat these domains as additional types. We show that this strategy consistently leads to improved results, as long as high-quality label embeddings are used. We furthermore use the label clusters as part of a simple post-processing technique, which results in further performance gains. Both strategies treat the UFET model as a black box and can thus straightforwardly be used to improve a wide range of existing models.",
+      "citations": 13
+    },
+    {
+      "title": "Wiki-based Prompts for Enhancing Relation Extraction using Language Models",
+      "year": 2024,
+      "authors": "Amirhossein Layegh, A. H. Payberah, A. Soylu, Dumitru Roman, M. Matskin",
+      "url": "https://api.semanticscholar.org/CorpusId:269951508",
+      "relevance": 1,
+      "abstract": "Prompt-tuning and instruction-tuning of language models have exhibited significant results in few-shot Natural Language Processing (NLP) tasks, such as Relation Extraction (RE), which involves identifying relationships between entities within a sentence. However, the effectiveness of these methods relies heavily on the design of the prompts. A compelling question is whether incorporating external knowledge can enhance the language model's understanding of NLP tasks. In this paper, we introduce wiki-based prompt construction that leverages Wikidata as a source of information to craft more informative prompts for both prompt-tuning and instruction-tuning of language models in RE. Our experiments show that using wiki-based prompts enhances cutting-edge language models in RE, emphasizing their potential for improving RE tasks. Our code and datasets are available at GitHub 1.",
+      "citations": 5
+    },
+    {
+      "title": "Knowledge Completion for Generics using Guided Tensor Factorization",
+      "year": 2016,
+      "authors": "Hanie Sedghi, Ashish Sabharwal",
+      "url": "https://api.semanticscholar.org/CorpusId:4438009",
+      "relevance": 1,
+      "abstract": "Given a knowledge base or KB containing (noisy) facts about common nouns or generics, such as \u201call trees produce oxygen\u201d or \u201csome animals live in forests\u201d, we consider the problem of inferring additional such facts at a precision similar to that of the starting KB. Such KBs capture general knowledge about the world, and are crucial for various applications such as question answering. Different from commonly studied named entity KBs such as Freebase, generics KBs involve quantification, have more complex underlying regularities, tend to be more incomplete, and violate the commonly used locally closed world assumption (LCWA). We show that existing KB completion methods struggle with this new task, and present the first approach that is successful. Our results demonstrate that external information, such as relation schemas and entity taxonomies, if used appropriately, can be a surprisingly powerful tool in this setting. First, our simple yet effective knowledge guided tensor factorization approach achieves state-of-the-art results on two generics KBs (80% precise) for science, doubling their size at 74%\u201386% precision. Second, our novel taxonomy guided, submodular, active learning method for collecting annotations about rare entities (e.g., oriole, a bird) is 6x more effective at inferring further new facts about them than multiple active learning baselines.",
+      "citations": 13
+    },
+    {
+      "title": "Retrieval And Structuring Augmented Generation with Large Language Models",
+      "year": 2025,
+      "authors": "Patrick Jiang, Siru Ouyang, Yizhu Jiao, Ming Zhong, Runchu Tian, Jiawei Han",
+      "url": "https://api.semanticscholar.org/CorpusId:280466704",
+      "relevance": 1,
+      "abstract": "Large Language Models (LLMs) have revolutionized natural language processing with their remarkable capabilities in text generation and reasoning. However, these models face critical challenges when deployed in real-world applications, including hallucination generation, outdated knowledge, and limited domain expertise. Retrieval And Structuring (RAS) Augmented Generation addresses these limitations by integrating dynamic information retrieval with structured knowledge representations. This survey (1) examines retrieval mechanisms including sparse, dense, and hybrid approaches for accessing external knowledge; (2) explore text structuring techniques such as taxonomy construction, hierarchical classification, and information extraction that transform unstructured text into organized representations; and (3) investigate how these structured representations integrate with LLMs through prompt-based methods, reasoning frameworks, and knowledge embedding techniques. It also identifies technical challenges in retrieval efficiency, structure quality, and knowledge integration, while highlighting research opportunities in multimodal retrieval, cross-lingual structures, and interactive systems. This comprehensive overview provides researchers and practitioners with insights into RAS methods, applications, and future directions.",
+      "citations": 12
+    },
+    {
+      "title": "Unified Semantic Typing with Meaningful Label Inference",
+      "year": 2022,
+      "authors": "James Y. Huang, Bangzheng Li, Jiashu Xu, Muhao Chen",
+      "url": "https://api.semanticscholar.org/CorpusId:248512532",
+      "relevance": 1,
+      "abstract": "Semantic typing aims at classifying tokens or spans of interest in a textual context into semantic categories such as relations, entity types, and event types. The inferred labels of semantic categories meaningfully interpret how machines understand components of text. In this paper, we present UniST, a unified framework for semantic typing that captures label semantics by projecting both inputs and labels into a joint semantic embedding space. To formulate different lexical and relational semantic typing tasks as a unified task, we incorporate task descriptions to be jointly encoded with the input, allowing UniST to be adapted to different tasks without introducing task-specific model components. UniST optimizes a margin ranking loss such that the semantic relatedness of the input and labels is reflected from their embedding similarity. Our experiments demonstrate that UniST achieves strong performance across three semantic typing tasks: entity typing, relation classification and event typing. Meanwhile, UniST effectively transfers semantic knowledge of labels and substantially improves generalizability on inferring rarely seen and unseen types. In addition, multiple semantic typing tasks can be jointly trained within the unified framework, leading to a single compact multi-tasking model that performs comparably to dedicated single-task models, while offering even better transferability.",
+      "citations": 37
+    },
+    {
+      "title": "CodeTaxo: Enhancing Taxonomy Expansion with Limited Examples via Code Language Prompts",
+      "year": 2024,
+      "authors": "Qingkai Zeng, Yuyang Bai, Zhaoxuan Tan, Zhenyu Wu, Shangbin Feng, Meng Jiang",
+      "url": "https://api.semanticscholar.org/CorpusId:271903942",
+      "relevance": 1,
+      "abstract": "Taxonomies play a crucial role in various applications by providing a structural representation of knowledge. The task of taxonomy expansion involves integrating emerging concepts into existing taxonomies by identifying appropriate parent concepts for these new query concepts. Previous approaches typically relied on self-supervised methods that generate annotation data from existing taxonomies. However, these methods are less effective when the existing taxonomy is small (fewer than 100 entities). In this work, we introduce CodeTaxo, a novel approach that leverages large language models through code language prompts to capture the taxonomic structure. Extensive experiments on five real-world benchmarks from different domains demonstrate that CodeTaxo consistently achieves superior performance across all evaluation metrics, significantly outperforming previous state-of-the-art methods. The code and data are available at https://github.com/QingkaiZeng/CodeTaxo-Pub.",
+      "citations": 12
+    },
+    {
+      "title": "A Short Review for Ontology Learning: Stride to Large Language Models Trend",
+      "year": 2024,
+      "authors": "R. Du, Huilong An, Keyu Wang, Weidong Liu",
+      "url": "https://api.semanticscholar.org/CorpusId:269302401",
+      "relevance": 1,
+      "abstract": "Ontologies provide formal representation of knowledge shared within Semantic Web applications. Ontology learning involves the construction of ontologies from a given corpus. In the past years, ontology learning has traversed through shallow learning and deep learning methodologies, each offering distinct advantages and limitations in the quest for knowledge extraction and representation. A new trend of these approaches is relying on large language models (LLMs) to enhance ontology learning. This paper gives a review in approaches and challenges of ontology learning. It analyzes the methodologies and limitations of shallow-learning-based and deep-learning-based techniques for ontology learning, and provides comprehensive knowledge for the frontier work of using LLMs to enhance ontology learning. In addition, it proposes several noteworthy future directions for further exploration into the integration of LLMs with ontology learning tasks.",
+      "citations": 10
+    },
+    {
+      "title": "Prompting encoder models for zero-shot classification: a cross-domain study in Italian",
+      "year": 2024,
+      "authors": "S. Auriemma, Martina Miliani, Mauro Madeddu, Alessandro Bondielli, Lucia C. Passaro, Alessandro Lenci",
+      "url": "https://api.semanticscholar.org/CorpusId:271544135",
+      "relevance": 1,
+      "abstract": "Addressing the challenge of limited annotated data in specialized fields and low-resource languages is crucial for the effective use of language models (LMs). While most large language models (LLMs) are trained on general-purpose English corpora, there is a notable gap in models specifically tailored for Italian, particularly for technical and bureaucratic jargon. This paper explores the feasibility of employing smaller, domain-specific encoder LMs alongside prompting techniques to enhance performance in these specialized contexts. Our study concentrates on the Italian bureaucratic and legal language, experimenting with both general-purpose and further pre-trained encoder-only models. We evaluated the models on downstream tasks such as document classification and entity typing and conducted intrinsic evaluations using Pseudo-log-likelihood. The results indicate that while further pre-trained models may show diminished robustness in general knowledge, they exhibit superior adaptability for domain-specific tasks, even in a zero-shot setting. Furthermore, the application of calibration techniques and in-domain verbalizers significantly enhances the efficacy of encoder models. These domain-specialized models prove to be particularly advantageous in scenarios where in-domain resources or expertise are scarce. In conclusion, our findings offer new insights into the use of Italian models in specialized contexts, which may have a significant impact on both research and industrial applications in the digital transformation era.",
+      "citations": 0
+    },
+    {
+      "title": "Common Sense Enhanced Knowledge-based Recommendation with Large Language Model",
+      "year": 2024,
+      "authors": "Shenghao Yang, Weizhi Ma, Peijie Sun, Min Zhang, Qingyao Ai, Yiqun Liu, Mingchen Cai",
+      "url": "https://api.semanticscholar.org/CorpusId:268723786",
+      "relevance": 1,
+      "abstract": "Knowledge-based recommendation models effectively alleviate the data sparsity issue leveraging the side information in the knowledge graph, and have achieved considerable performance. Nevertheless, the knowledge graphs used in previous work, namely metadata-based knowledge graphs, are usually constructed based on the attributes of items and co-occurring relations (e.g., also buy), in which the former provides limited information and the latter relies on sufficient interaction data and still suffers from cold start issue. Common sense, as a form of knowledge with generality and universality, can be used as a supplement to the metadata-based knowledge graph and provides a new perspective for modeling users' preferences. Recently, benefiting from the emergent world knowledge of the large language model, efficient acquisition of common sense has become possible. In this paper, we propose a novel knowledge-based recommendation framework incorporating common sense, CSRec, which can be flexibly coupled to existing knowledge-based methods. Considering the challenge of the knowledge gap between the common sense-based knowledge graph and metadata-based knowledge graph, we propose a knowledge fusion approach based on mutual information maximization theory. Experimental results on public datasets demonstrate that our approach significantly improves the performance of existing knowledge-based recommendation models.",
+      "citations": 13
+    },
+    {
+      "title": "Pretrained Encyclopedia: Weakly Supervised Knowledge-Pretrained Language Model",
+      "year": 2019,
+      "authors": "Wenhan Xiong, Jingfei Du, William Yang Wang, Veselin Stoyanov",
+      "url": "https://api.semanticscholar.org/CorpusId:209439872",
+      "relevance": 1,
+      "abstract": "Recent breakthroughs of pretrained language models have shown the effectiveness of self-supervised learning for a wide range of natural language processing (NLP) tasks. In addition to standard syntactic and semantic NLP tasks, pretrained models achieve strong improvements on tasks that involve real-world knowledge, suggesting that large-scale language modeling could be an implicit method to capture knowledge. In this work, we further investigate the extent to which pretrained models such as BERT capture knowledge using a zero-shot fact completion task. Moreover, we propose a simple yet effective weakly supervised pretraining objective, which explicitly forces the model to incorporate knowledge about real-world entities. Models trained with our new objective yield significant improvements on the fact completion task. When applied to downstream tasks, our model consistently outperforms BERT on four entity-related question answering datasets (i.e., WebQuestions, TriviaQA, SearchQA and Quasar-T) with an average 2.7 F1 improvements and a standard fine-grained entity typing dataset (i.e., FIGER) with 5.7 accuracy gains.",
+      "citations": 214
+    },
+    {
+      "title": "Entity Type Prediction Leveraging Graph Walks and Entity Descriptions",
+      "year": 2022,
+      "authors": "Russa Biswas, Jan Portisch, Heiko Paulheim, Harald Sack, Mehwish Alam",
+      "url": "https://api.semanticscholar.org/CorpusId:251134940",
+      "relevance": 1,
+      "abstract": "The entity type information in Knowledge Graphs (KGs) such as DBpedia, Freebase, etc. is often incomplete due to automated generation or human curation. Entity typing is the task of assigning or inferring the semantic type of an entity in a KG. This paper presents \\textit{GRAND}, a novel approach for entity typing leveraging different graph walk strategies in RDF2vec together with textual entity descriptions. RDF2vec first generates graph walks and then uses a language model to obtain embeddings for each node in the graph. This study shows that the walk generation strategy and the embedding model have a significant effect on the performance of the entity typing task. The proposed approach outperforms the baseline approaches on the benchmark datasets DBpedia and FIGER for entity typing in KGs for both fine-grained and coarse-grained classes. The results show that the combination of order-aware RDF2vec variants together with the contextual embeddings of the textual entity descriptions achieve the best results.",
+      "citations": 7
+    },
+    {
+      "title": "ERNIE: Enhanced Language Representation with Informative Entities",
+      "year": 2019,
+      "authors": "Zhengyan Zhang, Xu Han, Zhiyuan Liu, Xin Jiang, Maosong Sun, Qun Liu",
+      "url": "https://www.semanticscholar.org/paper/5f994dc8cae24ca9d1ed629e517fcc652660ddde",
+      "relevance": 1,
+      "abstract": "Neural language representation models such as BERT pre-trained on large-scale corpora can well capture rich semantic patterns from plain text, and be fine-tuned to consistently improve the performance of various NLP tasks. However, the existing pre-trained language models rarely consider incorporating knowledge graphs (KGs), which can provide rich structured knowledge facts for better language understanding. We argue that informative entities in KGs can enhance language representation with external knowledge. In this paper, we utilize both large-scale textual corpora and KGs to train an enhanced language representation model (ERNIE), which can take full advantage of lexical, syntactic, and knowledge information simultaneously. The experimental results have demonstrated that ERNIE achieves significant improvements on various knowledge-driven tasks, and meanwhile is comparable with the state-of-the-art model BERT on other common NLP tasks. The code and datasets will be available in the future.",
+      "citations": 1555
+    },
+    {
+      "title": "RULEBREAKERS: Challenging LLMs at the Crossroads between Formal Logic and Human-like Reasoning",
+      "year": 2024,
+      "authors": "Jason Chan, Robert J. Gaizauskas, Zhixue Zhao",
+      "url": "https://api.semanticscholar.org/CorpusId:273507248",
+      "relevance": 1,
+      "abstract": "Formal logic enables computers to reason in natural language by representing sentences in symbolic forms and applying rules to derive conclusions. However, in what our study characterizes as\"rulebreaker\"scenarios, this method can lead to conclusions that are typically not inferred or accepted by humans given their common sense and factual knowledge. Inspired by works in cognitive science, we create RULEBREAKERS, the first dataset for rigorously evaluating the ability of large language models (LLMs) to recognize and respond to rulebreakers (versus non-rulebreakers) in a human-like manner. Evaluating seven LLMs, we find that most models, including GPT-4o, achieve mediocre accuracy on RULEBREAKERS and exhibit some tendency to over-rigidly apply logical rules unlike what is expected from typical human reasoners. Further analysis suggests that this apparent failure is potentially associated with the models'poor utilization of their world knowledge and their attention distribution patterns. Whilst revealing a limitation of current LLMs, our study also provides a timely counterbalance to a growing body of recent works that propose methods relying on formal logic to improve LLMs'general reasoning capabilities, highlighting their risk of further increasing divergence between LLMs and human-like reasoning.",
+      "citations": 2
+    },
+    {
+      "title": "Towards semantically enriched embeddings for knowledge graph completion",
+      "year": 2023,
+      "authors": "Mehwish Alam, F. V. Harmelen, Maribel Acosta",
+      "url": "https://api.semanticscholar.org/CorpusId:260351500",
+      "relevance": 1,
+      "abstract": "Embedding based Knowledge Graph (KG) completion has gained much attention over the past few years. Most of the current algorithms consider a KG as a multidirectional labeled graph and lack the ability to capture the semantics underlying the schematic information. This position paper revises the state of the art and discusses several variations of the existing algorithms for KG completion, which are discussed progressively based on the level of expressivity of the semantics utilized. The paper begins with analysing various KG completion algorithms considering only factual information such as transductive and inductive link prediction and entity type prediction algorithms. It then revises the algorithms utilizing Large Language Models as background knowledge. Afterwards, it discusses the algorithms progressively utilizing semantic information such as class hierarchy information within the KGs and semantics represented in different description logic axioms. The paper concludes with a critical reflection on the current state of work in the community, where we argue that the aspects of semantics, rigorous evaluation protocols, and bias against external sources have not been sufficiently addressed in the literature, which hampers a more thorough understanding of advantages and limitations of existing approaches. Lastly, we provide recommendations for future directions.",
+      "citations": 6
+    },
+    {
+      "title": "Typing Errors in Factual Knowledge Graphs: Severity and Possible Ways Out",
+      "year": 2021,
+      "authors": "Peiran Yao, Denilson Barbosa",
+      "url": "https://api.semanticscholar.org/CorpusId:231802419",
+      "relevance": 1,
+      "abstract": "Large-scale factual knowledge graphs (KGs) such as DBpedia and Wikidata are essential to many popular downstream tasks and are also widely used by various research communities as training and/or benchmarking data. Despite their immense success and utility, these KGs are surprisingly noisy. In this study, we investigate the quality of these KGs, where the typing error rate is estimated to be 27% for coarse-grained types on average, and even 73% for certain fine-grained types. In pursuit of solutions, we propose an active typing error detection algorithm that maximizes the utilization of both gold and noisy labels. We also comprehensively discuss and compare the state-of-the-art in unsupervised, semi-supervised, and supervised paradigms to deal with typing errors in factual KGs. The outcomes of this study provide guidelines for researchers to use noisy factual KGs. To help practitioners deploy the techniques and conduct further research, we published our code and data 1.",
+      "citations": 8
+    },
+    {
+      "title": "Universal Representation Learning of Knowledge Bases by Jointly Embedding Instances and Ontological Concepts",
+      "year": 2019,
+      "authors": "Junheng Hao, Muhao Chen, Wenchao Yu, Yizhou Sun, Wei Wang",
+      "url": "https://www.semanticscholar.org/paper/64f82cf7dc68fe028f280c61cc9734ab299b031c",
+      "relevance": 1,
+      "abstract": "Many large-scale knowledge bases simultaneously represent two views of knowledge graphs (KGs): an ontology view for abstract and commonsense concepts, and an instance view for specific entities that are instantiated from ontological concepts. Existing KG embedding models, however, merely focus on representing one of the two views alone. In this paper, we propose a novel two-view KG embedding model, JOIE, with the goal to produce better knowledge embedding and enable new applications that rely on multi-view knowledge. JOIE employs both cross-view and intra-view modeling that learn on multiple facets of the knowledge base. The cross-view association model is learned to bridge the embeddings of ontological concepts and their corresponding instance-view entities. The intra-view models are trained to capture the structured knowledge of instance and ontology views in separate embedding spaces, with a hierarchy-aware encoding technique enabled for ontologies with hierarchies. We explore multiple representation techniques for the two model components and investigate with nine variants of JOIE. Our model is trained on large-scale knowledge bases that consist of massive instances and their corresponding ontological concepts connected via a (small) set of cross-view links. Experimental results on public datasets show that the best variant of JOIE significantly outperforms previous models on instance-view triple prediction task as well as ontology population on ontology-view KG. In addition, our model successfully extends the use of KG embeddings to entity typing with promising performance.",
+      "citations": 177
+    },
+    {
+      "title": "Chain-of-Layer: Iteratively Prompting Large Language Models for Taxonomy Induction from Limited Examples",
+      "year": 2024,
+      "authors": "Qingkai Zeng, Yuyang Bai, Zhaoxuan Tan, Shangbin Feng, Zhenwen Liang, Zhihan Zhang, Meng Jiang",
+      "url": "https://api.semanticscholar.org/CorpusId:267627600",
+      "relevance": 1,
+      "abstract": "Automatic taxonomy induction is crucial for web search, recommendation systems, and question answering. Manual curation of taxonomies is expensive in terms of human effort, making automatic taxonomy construction highly desirable. In this work, we introduce Chain-of-Layer which is an in-context learning framework designed to induct taxonomies from a given set of entities. Chain-of-Layer breaks down the task into selecting relevant candidate entities in each layer and gradually building the taxonomy from top to bottom. To minimize errors, we introduce the Ensemble-based Ranking Filter to reduce the hallucinated content generated at each iteration. Through extensive experiments, we demonstrate that Chain-of-Layer achieves state-of-the-art performance on four real-world benchmarks. Source code available at: https://github.com/qingkaizeng/chain-of-layer.",
+      "citations": 26
+    },
+    {
+      "title": "AsyncET: Asynchronous Learning for Knowledge Graph Entity Typing with Auxiliary Relations",
+      "year": 2023,
+      "authors": "Yun Cheng Wang, Xiou Ge, Bin Wang, C.-C. Jay Kuo",
+      "url": "https://api.semanticscholar.org/CorpusId:261339350",
+      "relevance": 1,
+      "abstract": "Knowledge graph entity typing (KGET) is a task to predict the missing entity types in knowledge graphs (KG). Previously, KG embedding (KGE) methods tried to solve the KGET task by introducing an auxiliary relation, 'hasType', to model the relationship between entities and their types. However, a single auxiliary relation has limited expressiveness for diverse entity-type patterns. We improve the expressiveness of KGE methods by introducing multiple auxiliary relations in this work. Similar entity types are grouped to reduce the number of auxiliary relations and improve their capability to model entity-type patterns with different granularities. With the presence of multiple auxiliary relations, we propose a method adopting an Asynchronous learning scheme for Entity Typing, named AsyncET, which updates the entity and type embeddings alternatively to keep the learned entity embedding up-to-date and informative for entity type prediction. Experiments are conducted on two commonly used KGET datasets to show that the performance of KGE methods on the KGET task can be substantially improved by the proposed multiple auxiliary relations and asynchronous embedding learning. Furthermore, our method has a significant advantage over state-of-the-art methods in model sizes and time complexity.",
+      "citations": 3
+    },
+    {
+      "title": "AsyncET: Asynchronous Representation Learning for Knowledge Graph Entity Typing",
+      "year": 2024,
+      "authors": "Yun Cheng Wang, Xiou Ge, Bin Wang, C.-C. Jay Kuo",
+      "url": "https://api.semanticscholar.org/CorpusId:271961923",
+      "relevance": 1,
+      "abstract": "Knowledge graph entity typing (KGET) aims to predict the missing entity types in knowledge graphs (KG). The relationship between entities and their corresponding types is often expressed using a single relation, hasType. However, hasType has a limited capability for modeling diverse entity-type relationships in the embedding space. In this paper, we first introduce multiple auxiliary relations to model the complex entity-type relationship. We propose an efficient and robust algorithm to group similar entity types together and assign a unique auxiliary relation to each group. Then, with the auxiliary relations, we propose an Asynchronous representation learning framework for KGET, named AsyncET, where entity and type embeddings are updated alternatively. Consequently, the quality of entity embeddings is gradually improved during training by infusing type information. In addition, entity types with different granularities and semantics can be properly modeled in the embedding space. Experimental results show that AsyncET can substantially improve the performance of embedding-based methods on the KGET task and has a significant advantage over state-of-the-art neural network-based methods in terms of model sizes and inference time.",
+      "citations": 3
+    },
+    {
+      "title": "An ontology\u2010based model for indexing and retrieval",
+      "year": 2013,
+      "authors": "W. G\u00f6dert",
+      "url": "https://api.semanticscholar.org/CorpusId:19273623",
+      "relevance": 1,
+      "abstract": "The presented ontology\u2010based model for indexing and retrieval combines the methods and experiences of traditional indexing languages with their cognitively interpreted entities and relationships with the strengths and possibilities of formal knowledge representation. The core component of the model uses inferences along the paths of typed relations between the entities of a knowledge representation for enabling the determination of result sets in the context of retrieval processes. A proposal for a general, but condensed, inventory of typed relations is given. The entities are arranged in aspect\u2010oriented facets to ensure a consistent hierarchical structure. The possible consequences for indexing and retrieval are discussed.",
+      "citations": 3
+    },
+    {
+      "title": "End-to-End Ontology Learning with Large Language Models",
+      "year": 2024,
+      "authors": "A. Lo, Albert Qiaochu Jiang, Wenda Li, M. Jamnik",
+      "url": "https://www.semanticscholar.org/paper/e2ad90e5a1a990615978972bfe6b1f78ad89dc50",
+      "relevance": 1,
+      "abstract": "Ontologies are useful for automatic machine processing of domain knowledge as they represent it in a structured format. Yet, constructing ontologies requires substantial manual effort. To automate part of this process, large language models (LLMs) have been applied to solve various subtasks of ontology learning. However, this partial ontology learning does not capture the interactions between subtasks. We address this gap by introducing OLLM, a general and scalable method for building the taxonomic backbone of an ontology from scratch. Rather than focusing on subtasks, like individual relations between entities, we model entire subcomponents of the target ontology by finetuning an LLM with a custom regulariser that reduces overfitting on high-frequency concepts. We introduce a novel suite of metrics for evaluating the quality of the generated ontology by measuring its semantic and structural similarity to the ground truth. In contrast to standard metrics, our metrics use deep learning techniques to define more robust distance measures between graphs. Both our quantitative and qualitative results on Wikipedia show that OLLM outperforms subtask composition methods, producing more semantically accurate ontologies while maintaining structural integrity. We further demonstrate that our model can be effectively adapted to new domains, like arXiv, needing only a small number of training examples. Our source code and datasets are available at https://github.com/andylolu2/ollm.",
+      "citations": 18
+    },
+    {
+      "title": "On Type-Aware Entity Retrieval",
+      "year": 2017,
+      "authors": "Dar\u00edo Garigliotti, K. Balog",
+      "url": "https://api.semanticscholar.org/CorpusId:1801003",
+      "relevance": 1,
+      "abstract": "Today, the practice of returning entities from a knowledge base in response to search queries has become widespread. One of the distinctive characteristics of entities is that they are typed, i.e., assigned to some hierarchically organized type system (type taxonomy). The primary objective of this paper is to gain a better understanding of how entity type information can be utilized in entity retrieval. We perform this investigation in an idealized \"oracle\" setting, assuming that we know the distribution of target types of the relevant entities for a given query. We perform a thorough analysis of three main aspects: (i) the choice of type taxonomy, (ii) the representation of hierarchical type information, and (iii) the combination of type-based and term-based similarity in the retrieval model. Using a standard entity search test collection based on DBpedia, we find that type information proves most useful when using large type taxonomies that provide very specific types. We provide further insights on the extensional coverage of entities and on the utility of target types.",
+      "citations": 23
+    },
+    {
+      "title": "Finer Grained Entity Typing with TypeNet",
+      "year": 2017,
+      "authors": "Shikhar Murty, Pat Verga, L. Vilnis, A. McCallum",
+      "url": "https://api.semanticscholar.org/CorpusId:26965064",
+      "relevance": 1,
+      "abstract": "We consider the challenging problem of entity typing over an extremely fine grained set of types, wherein a single mention or entity can have many simultaneous and often hierarchically-structured types. Despite the importance of the problem, there is a relative lack of resources in the form of fine-grained, deep type hierarchies aligned to existing knowledge bases. In response, we introduce TypeNet, a dataset of entity types consisting of over 1941 types organized in a hierarchy, obtained by manually annotating a mapping from 1081 Freebase types to WordNet. We also experiment with several models comparable to state-of-the-art systems and explore techniques to incorporate a structure loss on the hierarchy with the standard mention typing loss, as a first step towards future research on this dataset.",
+      "citations": 19
+    },
+    {
+      "title": "Redcoat: A Collaborative Annotation Tool for Hierarchical Entity Typing",
+      "year": 2019,
+      "authors": "Michael Stewart, Wei Liu, R. Cardell-Oliver",
+      "url": "https://api.semanticscholar.org/CorpusId:202779665",
+      "relevance": 1,
+      "abstract": "We introduce Redcoat, a web-based annotation tool that supports collaborative hierarchical entity typing. As an annotation tool, Redcoat also facilitates knowledge elicitation by allowing the creation and continuous refinement of concept hierarchies during annotation. It aims to minimise not only annotation time but the time it takes for project creators to set up and distribute projects to annotators. Projects created using the web-based interface can be rapidly distributed to a list of email addresses. Redcoat handles the propagation of documents amongst annotators and automatically scales the annotation workload depending on the number of active annotators. In this paper we discuss these key features and outline Redcoat\u2019s system architecture. We also highlight Redcoat\u2019s unique benefits over existing annotation tools via a qualitative comparison.",
+      "citations": 23
+    },
+    {
+      "title": "Entity Extraction from Wikipedia List Pages",
+      "year": 2020,
+      "authors": "Nicolas Heist, Heiko Paulheim",
+      "url": "https://api.semanticscholar.org/CorpusId:212657743",
+      "relevance": 1,
+      "abstract": "When it comes to factual knowledge about a wide range of domains, Wikipedia is often the prime source of information on the web. DBpedia and YAGO, as large cross-domain knowledge graphs, encode a subset of that knowledge by creating an entity for each page in Wikipedia, and connecting them through edges. It is well known, however, that Wikipedia-based knowledge graphs are far from complete. Especially, as Wikipedia\u2019s policies permit pages about subjects only if they have a certain popularity, such graphs tend to lack information about less well-known entities. Information about these entities is oftentimes available in the encyclopedia, but not represented as an individual page. In this paper, we present a two-phased approach for the extraction of entities from Wikipedia\u2019s list pages, which have proven to serve as a valuable source of information. In the first phase, we build a large taxonomy from categories and list pages with DBpedia as a backbone. With distant supervision, we extract training data for the identification of new entities in list pages that we use in the second phase to train a classification model. With this approach we extract over 700k new entities and extend DBpedia with 7.5M new type statements and 3.8M new facts of high precision.",
+      "citations": 17
+    },
+    {
+      "title": "AFET: Automatic Fine-Grained Entity Typing by Hierarchical Partial-Label Embedding",
+      "year": 2016,
+      "authors": "Xiang Ren, Wenqi He, Meng Qu, Lifu Huang, Heng Ji, Jiawei Han",
+      "url": "https://www.semanticscholar.org/paper/ee42c6c3c5db2f0eb40faacf6e3b80035a645287",
+      "relevance": 1,
+      "abstract": "Distant supervision has been widely used in current systems of \ufb01ne-grained entity typing to automatically assign categories (entity types) to entity mentions. However, the types so obtained from knowledge bases are often incorrect for the entity mention\u2019s local context. This paper proposes a novel embedding method to separately model \u201cclean\u201d and \u201cnoisy\u201d mentions, and incorporates the given type hierarchy to induce loss functions. We formulate a joint optimization problem to learn embeddings for mentions and type-paths, and develop an iterative algorithm to solve the problem. Experiments on three public datasets demonstrate the effectiveness and robustness of the proposed method, with an average 15% improvement in accuracy over the next best compared method 1 .",
+      "citations": 137
+    },
+    {
+      "title": "A Survey of Techniques for Constructing Chinese Knowledge Graphs and Their Applications",
+      "year": 2018,
+      "authors": "Tianxing Wu, G. Qi, Cheng Li, Meng Wang",
+      "url": "https://api.semanticscholar.org/CorpusId:158060958",
+      "relevance": 1,
+      "abstract": "With the continuous development of intelligent technologies, knowledge graph, the backbone of artificial intelligence, has attracted much attention from both academic and industrial communities due to its powerful capability of knowledge representation and reasoning. In recent years, knowledge graph has been widely applied in different kinds of applications, such as semantic search, question answering, knowledge management and so on. Techniques for building Chinese knowledge graphs are also developing rapidly and different Chinese knowledge graphs have been constructed to support various applications. Under the background of the \u201cOne Belt One Road (OBOR)\u201d initiative, cooperating with the countries along OBOR on studying knowledge graph techniques and applications will greatly promote the development of artificial intelligence. At the same time, the accumulated experience of China in developing knowledge graphs is also a good reference to develop non-English knowledge graphs. In this paper, we aim to introduce the techniques of constructing Chinese knowledge graphs and their applications, as well as analyse the impact of knowledge graph on OBOR. We first describe the background of OBOR, and then introduce the concept and development history of knowledge graph and typical Chinese knowledge graphs. Afterwards, we present the details of techniques for constructing Chinese knowledge graphs, and demonstrate several applications of Chinese knowledge graphs. Finally, we list some examples to explain the potential impacts of knowledge graph on OBOR.",
+      "citations": 55
+    },
+    {
+      "title": "FINET: Context-Aware Fine-Grained Named Entity Typing",
+      "year": 2015,
+      "authors": "Luciano Del Corro, Abdalghani Abujabal, Rainer Gemulla, G. Weikum",
+      "url": "https://api.semanticscholar.org/CorpusId:9899754",
+      "relevance": 1,
+      "abstract": "We propose FINET, a system for detecting the types of named entities in short inputs\u2014such as sentences or tweets\u2014with respect to WordNet\u2019s super fine-grained type system. FINET generates candidate types using a sequence of multiple extractors, ranging from explicitly mentioned types to implicit types, and subsequently selects the most appropriate using ideas from word-sense disambiguation. FINET combats data scarcity and noise from existing systems: It does not rely on supervision in its extractors and generates training data for type selection from WordNet and other resources. FINET supports the most fine-grained type system so far, including types with no annotated training data. Our experiments indicate that FINET outperforms state-of-the-art methods in terms of recall, precision, and granularity of extracted types.",
+      "citations": 93
+    },
+    {
+      "title": "Learning Fine-grained Relations from Chinese User Generated Categories",
+      "year": 2017,
+      "authors": "Chengyu Wang, Yan Fan, Xiaofeng He, Aoying Zhou",
+      "url": "https://api.semanticscholar.org/CorpusId:28345030",
+      "relevance": 1,
+      "abstract": "User generated categories (UGCs) are short texts that reflect how people describe and organize entities, expressing rich semantic relations implicitly. While most methods on UGC relation extraction are based on pattern matching in English circumstances, learning relations from Chinese UGCs poses different challenges due to the flexibility of expressions. In this paper, we present a weakly supervised learning framework to harvest relations from Chinese UGCs. We identify is-a relations via word embedding based projection and inference, extract non-taxonomic relations and their category patterns by graph mining. We conduct experiments on Chinese Wikipedia and achieve high accuracy, outperforming state-of-the-art methods.",
+      "citations": 3
+    },
+    {
+      "title": "Knowledge Enhanced Pretrained Language Models: A Compreshensive Survey",
+      "year": 2021,
+      "authors": "Xiaokai Wei, Shen Wang, Dejiao Zhang, Parminder Bhatia, Andrew O. Arnold",
+      "url": "https://api.semanticscholar.org/CorpusId:239015890",
+      "relevance": 1,
+      "abstract": "Pretrained Language Models (PLM) have established a new paradigm through learning informative contextualized representations on large-scale text corpus. This new paradigm has revolutionized the entire field of natural language processing, and set the new state-of-the-art performance for a wide variety of NLP tasks. However, though PLMs could store certain knowledge/facts from training corpus, their knowledge awareness is still far from satisfactory. To address this issue, integrating knowledge into PLMs have recently become a very active research area and a variety of approaches have been developed. In this paper, we provide a comprehensive survey of the literature on this emerging and fast-growing field - Knowledge Enhanced Pretrained Language Models (KE-PLMs). We introduce three taxonomies to categorize existing work. Besides, we also survey the various NLU and NLG applications on which KE-PLM has demonstrated superior performance over vanilla PLMs. Finally, we discuss challenges that face KE-PLMs and also promising directions for future research.",
+      "citations": 57
+    },
+    {
+      "title": "Comparative Analysis of OpenAI GPT-4o and DeepSeek R1 for Scientific Text Categorization Using Prompt Engineering",
+      "year": 2025,
+      "authors": "Aniruddha Maiti, Samuel Adewumi, Temesgen Alemayehu Tikure, Zichu Wang, N. Sengupta, Anastasiia Sukhanova, Ananya Jana",
+      "url": "https://api.semanticscholar.org/CorpusId:276772574",
+      "relevance": 1,
+      "abstract": "This study examines how large language models categorize sentences from scientific papers using prompt engineering. We use two advanced web-based models, GPT-4o (by OpenAI) and DeepSeek R1, to classify sentences into predefined relationship categories. DeepSeek R1 has been tested on benchmark datasets in its technical report. However, its performance in scientific text categorization remains unexplored. To address this gap, we introduce a new evaluation method designed specifically for this task. We also compile a dataset of cleaned scientific papers from diverse domains. This dataset provides a platform for comparing the two models. Using this dataset, we analyze their effectiveness and consistency in categorization.",
+      "citations": 9
+    }
+  ]
+}
+
+Results saved to: paper_search_results/categorical_knowledge_taxonomic_relations_entity_typing_language_models_20260427_204421.jsonl

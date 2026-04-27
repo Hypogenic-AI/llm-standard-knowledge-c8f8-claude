@@ -1,0 +1,49 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Why is the share so small?}
+
+Three mechanisms compress the apparent footprint to one part in a million.
+
+\para{Compositional storage.} ``Peanut \(\to\) legume'' generalizes to dozens of inherited properties (has-shell, contains-protein, edible, ...) without spending per-property bits. The bit complexity of the categorical edge is far smaller than the bit complexity of enumerating its entailments. \taxi probes exactly this structure --- and the result shows up cleanly: \taxi achieves the highest per-fact accuracy (\(23\)--\(30\%\)) but the lowest per-fact bit yield (small answer sets, low \(\log_2 |\gA|\)).
+
+\para{Parameter sharing across facts.} \citet{geva2021ffnkv} establish that a single FFN value vector activates for many concepts; \citet{hong2025specialization} quantify how this specialization rises with model generation. Our four-order-of-magnitude gap between the per-fact-footprint upper bound (\(\rome\) at \(0.67\%\)--\(1.92\%\)) and the bit-budget estimate (\(\sim 10^{-4}\%\)) is the cleanest aggregate evidence we are aware of that polysemantic value vectors are the dominant storage regime, not exclusive-ownership ``knowledge neurons''.
+
+\para{Junk-data dilution.} \citet{allenzhu2024knowledge} show that \(1{:}7\) useful-to-junk training-data ratios cause \(20\times\) capacity loss. \pythia is trained on \pile, which is dense in non-knowledge content (code, comments, dialogue), so most parameters serve linguistic competence and reasoning circuits rather than standard knowledge. The \(\sim 5.56 \times 10^9\) bit budget at \pythiaD is therefore an over-estimate of the budget actually allocated to knowledge --- but it is the right denominator if we want to know ``what fraction of the trained model is standard knowledge''.
+
+\subsection{What occupies the rest of the bit budget?}
+
+The \(2.78\)B-parameter \pythia model has \(5.56 \times 10^9\) bits of capacity at \(\beta = 2\) bpp. Standard categorical and relational knowledge accounts for only \(3.36 \times 10^3\) bits --- a factor of \(\mathbf{1.6 \times 10^6}\) smaller. The plausible occupants of the remaining capacity, suggested by adjacent literature but not measured here, are:
+\begin{itemize}[leftmargin=*,itemsep=0pt,topsep=0pt]
+    \item \textbf{Tail-of-distribution facts} about uncommon entities (people, places, events) that \bear and \taxi exclude by construction. \citet{mallen2023nottrust} show long-tail facts have very different accessibility profiles.
+    \item \textbf{Linguistic competence and stylistic memorization} --- a \(2.8\)B \pythia on \pile reproduces enormous amounts of code, technical text, and forum dialogue.
+    \item \textbf{Implicit reasoning circuits}: induction heads, copying mechanisms, arithmetic primitives, multi-hop chains.
+    \item \textbf{Raw memorized passages} --- \citet{morris2025memorize}'s \(3.6\) bpp ceiling is achieved on uniform-random strings, suggesting a large fraction of capacity is raw memorization rather than abstracted knowledge.
+\end{itemize}
+
+\subsection{Implications}
+
+\para{Distillation and quantization.} If standard knowledge occupies \(\sim 10^{-4}\%\) of the bit budget, the everyday-fact core is essentially free of capacity pressure. \(\text{int}4\) quantization halves the \(\beta\) ceiling~\citep{allenzhu2024knowledge} but still leaves \(\sim 10^4 \times\) headroom for standard knowledge. The user-visible degradation reported in some quantization work~\citep{hong2025specialization} is therefore likely to come from long-tail facts, reasoning circuits, or linguistic competence, not from the standard-knowledge core.
+
+\para{Interpretability.} The four-order-of-magnitude gap between per-fact-footprint upper bounds and the aggregate bit-budget figure quantifies a long-standing intuition: parameter sharing across facts must be the dominant regime in modern LLMs. Per-fact \rome edits work~\citep{meng2022rome}, but the \emph{aggregate} of all such edits must massively over-count the bits actually used.
+
+\para{Training-data design.} The slope from \(160\)M to \(2.8\)B in \bear accuracy (\(6.1\%\) to \(13.1\%\)) is gentle: standard-knowledge accumulation is not the binding constraint on model scale. Reasoning, stylistic, and long-tail accumulation must drive most of the capacity demand --- a frame that points training-data design at long-tail entity coverage and reasoning chains, not at brute-force enumeration of textbook facts.
+
+\subsection{Hypothesis status}
+
+\para{H1 (volume): supported.} Standard knowledge consumes well under \(1\%\) of the bit budget, by four to five orders of magnitude. Even extrapolating to a benchmark-of-benchmarks \(100\times\) larger than \bear and \taxi combined would still leave the figure under \(0.01\%\).
+
+\para{H2 (scaling): supported with caveat.} The fraction \emph{decreases} with model size: \(410\)M \(\to\) \(1\)B halves it, \(1\)B \(\to\) \(2.8\)B halves it again. Bootstrap CIs are disjoint, so the trend is statistically reliable. The caveat is the slope is gentle in absolute terms (\(-1.5 \times 10^{-4}\) pp/decade); the dilution effect is real but modest.
+
+\para{H3 (typology): mixed.} \taxi categorical accuracy (\(23\)--\(30\%\)) consistently exceeds \bear relational accuracy (\(6\)--\(13\%\)) --- the model knows categories better than entity-specific relations. But \taxi contributes far fewer aggregate bits because it has \(5\times\) fewer queries and smaller answer sets. Per-fact density runs in the opposite direction (\bear \(\sim 0.40\) bits/fact vs.\ \taxi \(\sim 0.15\) bits/fact). The hypothesis as originally stated --- categorical knowledge is denser per fact --- is wrong: relational facts carry more bits per query because the answer space is larger, even though the model knows fewer of them. Categorical knowledge is better-known but lower-bit; relational knowledge is harder but higher-bit.
+
+\subsection{Limitations}
+
+\begin{itemize}[leftmargin=*,itemsep=0pt,topsep=0pt]
+    \item \textbf{The probe is a lower bound on stored knowledge.} A model may contain knowledge it fails to express under a fixed template (paraphrase or surface-form sensitivity). \citet{wiland2024bear} show LL-ranking is much more robust than cloze probing, but residual under-counting is still possible because we use only the first \bear template per relation. Multi-template averaging would tighten the numerator.
+    \item \textbf{The \(2\) bpp ceiling may not transfer to undertrained models.} \pythia is trained on \(300\)B tokens --- below the saturation regime where the \(2\) bpp law is tightest. Reporting also at \(\beta = 3.6\) bpp partially addresses this; that denominator reduces the share by \(\sim 45\%\), not enough to change conclusions.
+    \item \textbf{Single architecture family.} All four models are \pythia (GPT-NeoX architecture). Generalization to LLaMA, Mistral, and Phi is plausible but not directly tested. \citet{hong2025specialization} specifically warn that specialization differs across families.
+    \item \textbf{Coverage of ``standard knowledge.''} \bear and \taxi only partially cover commonsense, procedural (``how to bake bread''), causal (``X causes Y''), and temporal knowledge. A more comprehensive enumeration could push the share up by one or two orders of magnitude --- but would still leave it well under \(1\%\).
+    \item \textbf{No quantization sweep.} \citet{allenzhu2024knowledge} show \(\text{int}4\) halves capacity. We do not measure how standard knowledge survives quantization vs.\ tail knowledge.
+    \item \textbf{Bootstrap caveat.} The bootstrap \(95\%\) CIs are slightly narrower than they should be because we resample within (relation, fact) pairs but not across templates. Adding template-level bootstrap would widen the intervals modestly.
+\end{itemize}

@@ -1,0 +1,16 @@
+PDF: papers/physics3_3_knowledge_capacity.pdf
+Total pages: 41
+Pages per chunk: 4
+
+Chunks:
+  physics3_3_knowledge_capacity_chunk_001.pdf: pages 1-4
+  physics3_3_knowledge_capacity_chunk_002.pdf: pages 5-8
+  physics3_3_knowledge_capacity_chunk_003.pdf: pages 9-12
+  physics3_3_knowledge_capacity_chunk_004.pdf: pages 13-16
+  physics3_3_knowledge_capacity_chunk_005.pdf: pages 17-20
+  physics3_3_knowledge_capacity_chunk_006.pdf: pages 21-24
+  physics3_3_knowledge_capacity_chunk_007.pdf: pages 25-28
+  physics3_3_knowledge_capacity_chunk_008.pdf: pages 29-32
+  physics3_3_knowledge_capacity_chunk_009.pdf: pages 33-36
+  physics3_3_knowledge_capacity_chunk_010.pdf: pages 37-40
+  physics3_3_knowledge_capacity_chunk_011.pdf: page 41

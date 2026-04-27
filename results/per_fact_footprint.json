@@ -1,0 +1,30 @@
+{
+  "EleutherAI/pythia-160m": {
+    "n_facts_known": 812,
+    "params_per_fact_kn": 6144,
+    "params_per_fact_rome": 3840,
+    "kn_share": 0.030734583029741008,
+    "rome_share": 0.01920911439358813
+  },
+  "EleutherAI/pythia-2.8b": {
+    "n_facts_known": 1443,
+    "params_per_fact_kn": 20480,
+    "params_per_fact_rome": 12800,
+    "kn_share": 0.010648798135906854,
+    "rome_share": 0.006655498834941784
+  },
+  "EleutherAI/pythia-1b": {
+    "n_facts_known": 1145,
+    "params_per_fact_kn": 16384,
+    "params_per_fact_rome": 10240,
+    "kn_share": 0.018541234004137368,
+    "rome_share": 0.011588271252585854
+  },
+  "EleutherAI/pythia-410m": {
+    "n_facts_known": 1088,
+    "params_per_fact_kn": 8192,
+    "params_per_fact_rome": 5120,
+    "kn_share": 0.021989015597447415,
+    "rome_share": 0.013743134748404634
+  }
+}
